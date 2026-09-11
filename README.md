@@ -1,38 +1,39 @@
 # JMBurdett Systems — website
 
-Single-page marketing / credibility site for **JMBurdett Systems** (custom AI solutions).
-Static HTML/CSS/JS, no build step. Deploys to Vercel.
+Single-page credibility site for **JMBurdett Systems** at **jmburdett.com** (the main domain for
+now: site and client email). Static HTML/CSS/JS, no build step. Pushes to `main` auto-deploy on
+Vercel.
+
+## Where it is built
+Built with the **scroll-craft** skill. The working copy, brief, build report and verification
+screenshots live outside this repo, in `C:/Users/jackb/scrollcraft/builds/jmburdett/`
+(`BRIEF.md` holds Jack's feedback verbatim; `BUILD-REPORT.md` what was verified). Edit and verify
+there, then copy the package below into this folder and push.
 
 ## Structure
 ```
 jackburdett-site/
-├── index.html        # the whole site (self-contained: inline CSS + JS)
-├── assets/
-│   └── images/       # put real images here (headshot, GBSC logo, etc.)
-├── vercel.json       # optional Vercel config
-└── README.md         # this file
+├── index.html        # the page (real HTML; scroll behaviour comes from data-sc-* attributes)
+├── site.css          # page styles and tokens
+├── site.js           # page behaviour: WebGL light-field, the self-drawing system map,
+│                     #   the rotating Lead Assistant examples, keyboard parking, Lenis glide
+├── scrollcraft.css   # scroll engine (from the scroll-craft skill; never edit per project)
+├── scrollcraft.js    #   "
+├── lenis.min.js      # smooth wheel scrolling, Lenis 1.3.26 (MIT)
+├── assets/jack.jpg   # headshot (assets/images/ is the old site's copy)
+├── og.png            # link-preview image, rendered from the hero
+├── privacy.html      # UK GDPR privacy notice (Article 14) — linked from the cold email signature
+├── robots.txt, sitemap.xml
+└── vercel.json
 ```
 
-## Before it goes live — fill the placeholders
-Search `index.html` for **`SWAP:`** and **`EDIT:`**.
+## Honesty rules the copy follows
+- The Lead Assistant **does not book calendar slots**: it answers, captures the details, confirms a
+  callback with a reference, emails the customer and the business, puts the lead on the dashboard,
+  and chases after 48 hours. The rotating panel's four scenes are labelled examples.
+- GBSC figures are real (live Supabase, Sept 2026): 25 enquiries since the end of May, 18 in the
+  evening or at a weekend. Michael's quote is his approved wording, without the unverified
+  "twice as many" line.
 
-- [ ] **Headshot** — replace the `.avatar` circle in the About section with a real photo (drop the file in `assets/images/`, e.g. `jack.jpg`, then swap the `<div class="avatar">` for `<img src="assets/images/jack.jpg" ...>`).
-- [ ] **GBSC quote** — replace the badged *Placeholder* testimonial with the club owner's **real, granted** words. Do NOT publish a fabricated quote (UK CAP Code + DMCC 2024 fake-testimonial ban).
-- [ ] **Booking link** — point every "Book a call" (`href="#book"`) at your Cal.com URL.
-- [ ] **Contact email** — `hello@jmburdett.com` (confirm / keep).
-- [ ] **Live demo URL** — the "Try a live demo" / "See it live" links point at the Modal Crowngate demo; update if that URL changes.
-
-## Deploy (Vercel)
-No build step. Either:
-- Drag this folder into the Vercel dashboard, **or**
-- Connect the repo and set the project root to this folder.
-
-Then add your domain and point DNS at Vercel.
-
-## Domain plan (Sept 2026)
-Deploys to a dedicated **figurehead domain** (bought September). `jmburdett.com` stays the
-**cold-email sender only** and 301-redirects to the figurehead domain (keeps cold-send reputation
-isolated). A temporary `*.vercel.app` URL can preview/share it before then.
-
-## Live demo
-Property-assistant demo (Modal): https://jackburdett7-dev--lead-assistant-fastapi-app.modal.run/property-demo
+## Live demo linked from the page
+Accountancy demo (Modal): https://jackburdett7-dev--lead-assistant-fastapi-app.modal.run/accountants

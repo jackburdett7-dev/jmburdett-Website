@@ -1,0 +1,617 @@
+/* ==========================================================================
+   jmburdett · page styles. The engine (scrollcraft.css/js) is untouched;
+   everything here themes it or styles this page's own markup.
+   ========================================================================== */
+
+:root {
+  /* the six roles + two faces (JMBurdett brand) */
+  --sc-canvas:     #F2F1EE;
+  --sc-surface:    #FDFDFB;
+  --sc-ink:        #12181A;
+  --sc-ink-soft:   #50605F;
+  --sc-accent:     #0E7C86;
+  --sc-accent-ink: #FFFFFF;
+  --sc-font-display: "Sora", system-ui, sans-serif;
+  --sc-font-text:    "Outfit", system-ui, sans-serif;
+  --sc-font-mono:    "Sora", system-ui, sans-serif;   /* no third family */
+
+  /* light canvas: shadows re-tinted toward the ground and softened (worlds.md) */
+  --sc-shadow-color: 190 35% 22%;
+  --sc-e1: 0 1px 2px hsl(var(--sc-shadow-color) / 0.10), 0 2px 6px -1px hsl(var(--sc-shadow-color) / 0.08);
+  --sc-e2: 0 2px 4px hsl(var(--sc-shadow-color) / 0.08), 0 12px 28px -8px hsl(var(--sc-shadow-color) / 0.16);
+  --sc-e3: 0 4px 10px hsl(var(--sc-shadow-color) / 0.08), 0 28px 60px -18px hsl(var(--sc-shadow-color) / 0.26);
+  --sc-edge: inset 0 1px 0 rgba(255, 255, 255, 0.95);
+
+  /* page-local */
+  --jb-teal-text: #0B626B;      /* teal that clears 4.5:1 on porcelain for small text */
+  --jb-glass: rgba(253, 253, 251, 0.74);
+  --jb-glass-strong: rgba(253, 253, 251, 0.93);
+  --jb-line: rgba(18, 24, 26, 0.085);
+  --jb-r: 22px;
+  --jb-r-sm: 14px;
+}
+
+html { background: var(--sc-canvas); }
+body { background: transparent; }
+.sc-grain { opacity: 0.028; }
+
+/* Lenis (smooth wheel, slowed a touch; site.js): its own 1.3 rules, plus
+   native smooth scrolling off while it runs, so the two never compete. */
+html.lenis, html.lenis body { height: auto; }
+html.lenis { scroll-behavior: auto !important; }
+.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
+.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
+.lenis.lenis-smooth iframe { pointer-events: none; }
+
+/* ------------------------------------------------------------------ type
+   Margins are reset with :where() (zero specificity) so the engine's
+   .sc-stack rhythm still spaces these when they sit in a stack.          */
+:where(.h2, .lede, .body) { margin: 0; }
+.h2 {
+  font-family: var(--sc-font-display);
+  font-weight: 600;
+  font-size: clamp(2rem, 1.35rem + 2.6vw, 3.5rem);
+  line-height: 1.04;
+  letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.sc-stack > .h2 + * { margin-top: var(--sc-5); }
+.lede {
+  font-size: var(--sc-t-lg);
+  line-height: 1.5;
+  letter-spacing: -0.01em;
+  color: var(--sc-ink);
+  max-width: 34ch;
+  text-wrap: pretty;
+}
+.body { color: var(--sc-ink-soft); max-width: 58ch; text-wrap: pretty; }
+.body--ink { color: var(--sc-ink); }
+.accent { color: var(--sc-accent); }
+.textlink {
+  color: var(--jb-teal-text);
+  font-weight: 500;
+  text-decoration: underline;
+  text-decoration-color: color-mix(in oklab, var(--jb-teal-text) 40%, transparent);
+  text-underline-offset: 0.28em;
+  transition: text-decoration-color 160ms var(--sc-ease-out);
+}
+.textlink:hover { text-decoration-color: var(--jb-teal-text); }
+
+/* ----------------------------------------------------------------- buttons */
+.btn {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 3rem; padding: 0.85rem 1.45rem;
+  border-radius: var(--sc-r-pill);
+  background: var(--sc-accent); color: var(--sc-accent-ink);
+  font-family: var(--sc-font-text); font-weight: 500; font-size: 1rem; line-height: 1;
+  text-decoration: none; white-space: nowrap;
+  box-shadow: inset 0 1px 0 rgba(255,255,255,0.22), 0 10px 24px -10px rgba(14,124,134,0.6);
+  transition: background-color 160ms var(--sc-ease-out), transform 140ms var(--sc-ease-out);
+}
+.btn:active { transform: scale(0.97); }
+@media (hover: hover) and (pointer: fine) { .btn:hover { background: var(--jb-teal-text); } }
+.btn--sm { min-height: 2.5rem; padding: 0.65rem 1.1rem; font-size: 0.95rem; }
+.btn--lg { min-height: 3.4rem; padding: 1rem 1.9rem; font-size: 1.05rem; }
+
+/* ------------------------------------------------------------- the field
+   A full-page layer BEHIND the content, holding a sticky viewport-sized
+   canvas. Sticky rather than fixed: it paints identically, and the contrast
+   pass (which hides fixed chrome as if it sat in front of the text) then
+   measures each line against the light that is really behind it.          */
+body { position: relative; }
+.field-wrap { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
+#field, .field-fallback { position: sticky; top: 0; display: block; width: 100%; height: 100vh; height: 100lvh; }
+.field-fallback {
+  display: none;
+  background:
+    radial-gradient(60% 50% at 78% 22%, rgba(79,179,188,0.16), transparent 70%),
+    radial-gradient(50% 45% at 18% 85%, rgba(14,124,134,0.08), transparent 70%),
+    var(--sc-canvas);
+}
+.no-webgl #field { display: none; }
+.no-webgl .field-fallback { display: block; }
+
+/* ------------------------------------------------------------------- bar */
+.bar { position: fixed; inset: 0 0 auto 0; z-index: var(--sc-z-chrome); padding: 14px var(--sc-gutter) 0; }
+.bar::before {
+  content: ""; position: absolute; inset: 10px calc(var(--sc-gutter) - 14px) auto; height: 58px;
+  border-radius: var(--sc-r-pill);
+  background: var(--jb-glass-strong);
+  border: 1px solid var(--jb-line);
+  box-shadow: var(--sc-edge), var(--sc-e2);
+  backdrop-filter: blur(16px) saturate(1.1); -webkit-backdrop-filter: blur(16px) saturate(1.1);
+  opacity: 0; transition: opacity 240ms var(--sc-ease-out);
+}
+.bar.is-scrolled::before { opacity: 1; }
+.bar__inner { position: relative; display: flex; align-items: center; justify-content: space-between; height: 50px; }
+.brand {
+  display: inline-flex; align-items: center;
+  font-family: var(--sc-font-display); font-weight: 700; font-size: 1.02rem; letter-spacing: -0.02em;
+  color: var(--sc-ink); text-decoration: none; white-space: nowrap;
+}
+.brand__sys {
+  margin-left: 9px; padding: 3px 8px 2px;
+  border: 1px solid var(--jb-line); border-radius: var(--sc-r-pill);
+  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.58rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--jb-teal-text);
+}
+
+/* ================================================================= HERO ==
+   One pinned act and the page's peak. The copy holds; the system map beside
+   it wires itself up from the scroll (site.js). On phones the map rises into
+   the space the headline gives up.                                         */
+.hero {
+  --p: var(--sc-p, 0);
+  --rise: clamp(0, (var(--p) - 0.02) / 0.18, 1);
+  --e: calc(var(--rise) * var(--rise) * (3 - 2 * var(--rise)));
+}
+.hero-copy {
+  position: absolute; z-index: 3;
+  left: var(--sc-gutter); top: 50%; translate: 0 -46%;
+  width: min(47rem, 52vw);
+}
+.byline {
+  display: flex; align-items: center; gap: 12px;
+  margin: 0 0 var(--sc-6);
+  font-size: var(--sc-t-sm); color: var(--sc-ink-soft);
+}
+.byline img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--sc-surface), var(--sc-e1); }
+/* the headline is the message and the largest thing on the screen; its
+   longest line is ~7em, so 6.6vw always fits the 52vw column            */
+.hero-title {
+  font-family: var(--sc-font-display); font-weight: 600;
+  font-size: clamp(2.8rem, 6.6vw, 6.6rem);
+  line-height: 0.98; letter-spacing: -0.045em;
+  margin: 0;
+}
+.hero-sub {
+  margin: var(--sc-5) 0 0;
+  max-width: 31ch;
+  font-size: var(--sc-t-lg); line-height: 1.45; letter-spacing: -0.01em;
+  color: var(--sc-ink-soft); text-wrap: pretty;
+}
+.hero-cta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sc-5); margin: var(--sc-6) 0 0; }
+
+/* the map: clearly second to the headline, and legible at every width */
+.map-move {
+  position: absolute; z-index: 2;
+  right: var(--sc-gutter); top: 50%;
+  width: min(35rem, calc(54vw - 2 * var(--sc-gutter) - 2.5rem));
+  transform: translateY(-50%);
+}
+.map-depth { will-change: transform; }
+.map { margin: 0; }
+
+/* The map floats on the page, no panel. Its tiles lift off the light, each
+   icon sits in a badge that fills with teal as it switches on, and the core
+   is the one solid mass. The status pill sits over the core.              */
+.console { --core-x: 53.125%; position: relative; }
+.console__bar { position: relative; height: 34px; margin-bottom: 6px; }
+.console__status {
+  position: absolute; top: 0; left: var(--core-x); transform: translateX(-50%);
+  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
+  padding: 7px 13px 6px; border-radius: var(--sc-r-pill);
+  background: var(--jb-glass-strong); border: 1px solid var(--jb-line);
+  box-shadow: var(--sc-edge), var(--sc-e1);
+  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase;
+  color: var(--sc-ink-soft);
+  transition: color 300ms var(--sc-ease-out), border-color 300ms var(--sc-ease-out), background-color 300ms var(--sc-ease-out);
+}
+.console__status i { width: 7px; height: 7px; border-radius: 50%; background: #9AA7A8; transition: background-color 300ms, box-shadow 300ms; }
+.console__status.is-wiring { color: var(--jb-teal-text); border-color: color-mix(in oklab, var(--sc-accent) 35%, transparent); }
+.console__status.is-wiring i { background: var(--sc-accent); animation: blink 1s ease-in-out infinite; }
+.console__status.is-run { color: #0E6843; border-color: rgba(31, 169, 113, 0.42); background: #EFFAF4; }
+.console__status.is-run i { background: #1FA971; box-shadow: 0 0 0 3px rgba(31, 169, 113, 0.18), 0 0 10px rgba(31, 169, 113, 0.65); }
+@keyframes blink { 50% { opacity: 0.3; } }
+
+.map__svg { display: block; width: 100%; height: auto; overflow: visible; }
+.map__svg--tall { display: none; }
+
+.map text { font-family: var(--sc-font-text); font-size: 15px; font-weight: 500; fill: var(--sc-ink); transition: fill 260ms var(--sc-ease-out); }
+.map .map__sub { font-size: 12px; font-weight: 400; fill: var(--sc-ink-soft); }
+.map__svg--wide .map__node--out text { font-size: 14px; }
+.map__heads text { font-family: var(--sc-font-display); font-weight: 600; font-size: 10.5px; letter-spacing: 0.22em; fill: var(--jb-teal-text); }
+
+.map__glow { opacity: 0.3; }
+.map__ghosts path { fill: none; stroke: rgba(18, 24, 26, 0.2); stroke-width: 1.2; stroke-dasharray: 2 5; }
+.map__path { fill: none; stroke-width: 2.6; stroke-linecap: round; }
+.map__trail { fill: none; stroke: #3CCAD4; stroke-width: 3.2; stroke-linecap: round; opacity: 0; }
+.map__pulse { fill: #fff; stroke: var(--sc-accent); stroke-width: 2.2; opacity: 0; }
+
+/* tiles: white glass lifted off the page (badges and icons are rects too) */
+.map__node > rect:not(.map__badge) {
+  fill: rgba(253, 253, 251, 0.94); stroke: rgba(18, 24, 26, 0.08); stroke-width: 1;
+  transition: fill 260ms var(--sc-ease-out), stroke 260ms var(--sc-ease-out);
+}
+.map__svg--wide .map__node > rect:not(.map__badge) { filter: url(#liftW); }
+.map__svg--tall .map__node > rect:not(.map__badge) { filter: url(#liftT); }
+.map__node.is-on > rect:not(.map__badge) { fill: #fff; stroke: color-mix(in oklab, var(--sc-accent) 45%, transparent); }
+.map__svg--wide .map__node.is-on > rect:not(.map__badge) { filter: url(#liftOnW); }
+.map__svg--tall .map__node.is-on > rect:not(.map__badge) { filter: url(#liftOnT); }
+.map__badge { fill: color-mix(in oklab, var(--sc-accent) 9%, #fff); transition: fill 260ms var(--sc-ease-out); }
+.map__node.is-on .map__badge { fill: var(--sc-accent); }
+.map__icon { fill: none; stroke: var(--jb-teal-text); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke 260ms var(--sc-ease-out); }
+.map__node.is-on .map__icon { stroke: #fff; }
+.js .map__node:not(.is-on) text:not(.map__sub) { fill: var(--sc-ink-soft); }
+
+/* the core: glass and dashed at rest; a solid block of teal light once on */
+.map__orbit {
+  fill: none; stroke: color-mix(in oklab, var(--sc-accent) 55%, transparent); stroke-width: 1.4; stroke-dasharray: 2 8; stroke-linecap: round;
+  opacity: 0.4; transform-box: fill-box; transform-origin: center;
+  transition: opacity 420ms var(--sc-ease-out);
+}
+.map__core.is-on .map__orbit { opacity: 1; animation: orbit 36s linear infinite; }
+@keyframes orbit { to { transform: rotate(360deg); } }
+.map__coreBox { fill: rgba(253, 253, 251, 0.96); stroke: rgba(18, 24, 26, 0.08); stroke-width: 1; }
+.map__svg--wide .map__coreBox { filter: url(#liftW); }
+.map__svg--tall .map__coreBox { filter: url(#liftT); }
+.map__coreFill { opacity: 0; transition: opacity 460ms var(--sc-ease-out); }
+.map__core.is-on .map__coreFill { opacity: 1; }
+.map__svg--wide .map__core.is-on .map__coreFill { filter: url(#coreGlowW); }
+.map__svg--tall .map__core.is-on .map__coreFill { filter: url(#coreGlowT); }
+.map__glyph circle { fill: none; stroke: rgba(18, 24, 26, 0.3); stroke-width: 2; transition: stroke 320ms var(--sc-ease-out); }
+.map__core.is-on .map__glyph circle { stroke: #fff; }
+.map .map__coreText { font-size: 13px; font-weight: 600; fill: var(--sc-ink-soft); }
+.map__core.is-on .map__coreText { fill: #fff; }
+.map__ring { fill: none; stroke: var(--sc-accent); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
+.map__cap { margin: var(--sc-5) 0 0; text-align: center; font-size: var(--sc-t-base); color: var(--sc-ink); }
+
+/* narrower laptops: the wide drawing would shrink past legible, so the
+   compact one stands in, still second to the headline */
+@media (min-width: 861px) and (max-width: 1279px) {
+  .map-move { width: min(25rem, calc(54vw - 2 * var(--sc-gutter) - 2.5rem)); }
+  .map__svg--wide { display: none; }
+  .map__svg--tall { display: block; }
+  .console { --core-x: 50%; }
+  .map text { font-size: 13px; }
+  .map__svg--tall .map__node--out text { font-size: 12.5px; }
+  .map .map__coreText { font-size: 11px; }
+}
+
+/* ------------------------------------------------- shared product panels */
+.la {
+  position: relative;
+  display: flex; flex-direction: column;
+  background: var(--jb-glass-strong);
+  border: 1px solid var(--jb-line);
+  border-radius: var(--jb-r);
+  box-shadow: var(--sc-edge), var(--sc-e3);
+  backdrop-filter: blur(18px) saturate(1.1); -webkit-backdrop-filter: blur(18px) saturate(1.1);
+  overflow: hidden;
+}
+.la__head { display: flex; align-items: center; gap: 10px; padding: 14px 18px 10px; }
+.la__dot { width: 9px; height: 9px; border-radius: 50%; background: #2FB36F; box-shadow: 0 0 0 3px rgba(47,179,111,0.16); }
+.la__avatar { width: 28px; height: 28px; border-radius: 50%; object-fit: cover; }
+.la__name { font-family: var(--sc-font-display); font-weight: 600; font-size: 0.98rem; letter-spacing: -0.015em; }
+.la__tag {
+  margin-left: auto;
+  padding: 4px 10px 3px; border-radius: var(--sc-r-pill);
+  background: color-mix(in oklab, var(--sc-accent) 10%, transparent);
+  color: var(--jb-teal-text);
+  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.66rem; letter-spacing: 0.14em; text-transform: uppercase;
+}
+.la__tag--quiet { background: transparent; border: 1px solid var(--jb-line); color: var(--sc-ink-soft); letter-spacing: 0.08em; text-transform: none; font-size: 0.72rem; font-weight: 500; }
+.la__meta {
+  display: flex; justify-content: space-between; align-items: baseline; gap: 12px;
+  padding: 0 18px 12px; border-bottom: 1px solid var(--jb-line);
+  font-size: 0.86rem; color: var(--sc-ink-soft);
+}
+.la__clock { font-family: var(--sc-font-display); font-weight: 600; font-size: 1rem; letter-spacing: -0.01em; color: var(--jb-teal-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+.chat { margin: 0; padding: 16px 16px 6px; list-style: none; display: flex; flex-direction: column; gap: 9px; }
+.msg {
+  max-width: 86%; padding: 10px 14px; border-radius: var(--jb-r-sm);
+  font-size: 0.93rem; line-height: 1.42; text-wrap: pretty;
+}
+.msg--us { align-self: flex-end; background: var(--sc-accent); color: #fff; border-bottom-right-radius: 5px; }
+.chip__dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sc-accent); flex: none; }
+.pill {
+  padding: 3px 10px 2px; border-radius: var(--sc-r-pill);
+  background: var(--sc-accent); color: #fff;
+  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.68rem; letter-spacing: 0.1em; text-transform: uppercase;
+}
+
+/* ================================================================ PROOF ==
+   One screen, read in order: the numbers, the client's own words, and what
+   it looks like when it happens. Layout after the live jmburdett.com block
+   (stats, a quote strip with a badge, the product in its own surface).    */
+.proof { padding-block: calc(var(--sc-section) * 0.85) calc(var(--sc-section) * 0.75); }
+.proof .sc-wrap { max-width: 80rem; }
+.proof__grid {
+  display: grid; grid-template-columns: 1.05fr 1fr;
+  grid-template-areas: "head head" "left enq";
+  gap: clamp(1.25rem, 2vw, 2rem) clamp(1.5rem, 3.5vw, 3rem); align-items: center;
+  padding: clamp(1.5rem, 2.8vw, 2.6rem);
+  background: var(--jb-glass); border: 1px solid var(--jb-line); border-radius: 30px;
+  box-shadow: var(--sc-edge), var(--sc-e3);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.proof__head { grid-area: head; }
+.eyebrow {
+  margin: 0 0 var(--sc-3);
+  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.2em; text-transform: uppercase;
+  color: var(--jb-teal-text);
+}
+.proof .h2 { font-size: clamp(1.9rem, 1.1rem + 2.2vw, 3.1rem); }
+.proof__left { grid-area: left; display: flex; flex-direction: column; gap: var(--sc-6); }
+
+/* the numbers, big enough to read at a glance; they tick once on entry */
+.stats { display: flex; flex-wrap: wrap; gap: var(--sc-5) clamp(1.5rem, 3.5vw, 3rem); }
+.stat { margin: 0; display: flex; align-items: center; gap: 14px; }
+.stat__v {
+  font-family: var(--sc-font-display); font-weight: 700;
+  font-size: clamp(2.5rem, 1.7rem + 2vw, 3.5rem); line-height: 1; letter-spacing: -0.045em;
+  color: var(--jb-teal-text); font-variant-numeric: tabular-nums;
+  min-width: 1.3em;
+}
+.stat__l { max-width: 13ch; font-size: 0.92rem; line-height: 1.3; color: var(--sc-ink-soft); }
+
+/* the one teal surface on the page: the client's own words */
+.quote {
+  position: relative; isolation: isolate; overflow: hidden;
+  margin: 0; padding: clamp(1.5rem, 2.6vw, 2.2rem) clamp(1.5rem, 2.8vw, 2.4rem);
+  border-radius: var(--jb-r);
+  color: #fff;
+  background:
+    radial-gradient(90% 70% at 100% 100%, rgba(6, 38, 42, 0.38), transparent 62%),
+    linear-gradient(150deg, #0D7680 0%, #0A5E66 100%);
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.2),
+    0 2px 6px rgba(8, 50, 56, 0.14),
+    0 30px 60px -22px rgba(10, 94, 102, 0.55);
+}
+.quote__mark {
+  /* the glyph lives in the top of its em box, so this keeps it in the card's top padding, clear of the words */
+  position: absolute; z-index: -1; top: -0.08em; right: 0.16em;
+  font-family: var(--sc-font-display); font-weight: 700; font-size: 5rem; line-height: 1;
+  color: rgba(255, 255, 255, 0.13);
+  pointer-events: none;
+}
+.quote blockquote { margin: 0; }
+.quote blockquote p {
+  margin: 0; max-width: 46ch;
+  font-size: clamp(1.02rem, 0.9rem + 0.35vw, 1.18rem); line-height: 1.55; letter-spacing: -0.005em;
+  text-wrap: pretty; color: #fff;
+}
+.quote figcaption {
+  display: flex; align-items: center; gap: 12px;
+  margin-top: var(--sc-5); padding-top: var(--sc-4);
+  border-top: 1px solid rgba(255, 255, 255, 0.18);
+}
+.quote__av {
+  flex: none; width: 40px; height: 40px; border-radius: 50%;
+  display: grid; place-items: center;
+  background: rgba(255, 255, 255, 0.14); border: 1px solid rgba(255, 255, 255, 0.3);
+  font-family: var(--sc-font-display); font-weight: 700; font-size: 0.78rem; letter-spacing: 0.02em; color: #fff;
+}
+.quote__who { display: flex; flex-direction: column; gap: 2px; line-height: 1.3; }
+.quote__who strong { color: #fff; font-weight: 600; font-size: 0.96rem; }
+.quote__who span { color: #E3F3F4; font-size: 0.84rem; }
+
+.enq { grid-area: enq; }
+.enq__body { display: flex; flex-direction: column; gap: 10px; padding: 14px; }
+.enq__toast {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
+  margin: 0; padding: 7px 14px; border-radius: var(--sc-r-pill);
+  background: color-mix(in oklab, var(--sc-accent) 10%, var(--sc-surface));
+  color: var(--jb-teal-text); font-weight: 500; font-size: 0.86rem;
+}
+.enq__mail { padding: 14px 16px; border-radius: var(--jb-r-sm); background: #fff; border: 1px solid var(--jb-line); box-shadow: var(--sc-e1); }
+.enq__subj { margin: 0 0 10px; font-family: var(--sc-font-display); font-weight: 600; font-size: 1.08rem; letter-spacing: -0.02em; }
+.enq__mail dl { margin: 0; display: grid; gap: 7px; font-size: 0.9rem; }
+.enq__mail dl div { display: grid; grid-template-columns: 5.2rem 1fr; }
+.enq__mail dt { color: var(--sc-ink-soft); }
+.enq__mail dd { margin: 0; font-variant-numeric: tabular-nums; }
+.enq__row {
+  display: flex; flex-wrap: wrap; align-items: center; gap: 6px 12px;
+  padding: 12px 14px; border-radius: var(--jb-r-sm);
+  background: color-mix(in oklab, var(--sc-accent) 7%, var(--sc-surface));
+  font-size: 0.9rem;
+}
+.enq__muted { flex-basis: 100%; color: var(--sc-ink-soft); font-size: 0.84rem; }
+.enq__note { margin: 10px 4px 0; font-size: 0.8rem; line-height: 1.4; color: var(--sc-ink-soft); }
+
+/* Four examples. Without JS they simply stack; with it they share one grid
+   cell (so the panel never changes height) and take turns (site.js).      */
+.enq__scene + .enq__scene { border-top: 1px solid var(--jb-line); padding-top: 12px; }
+.js .enq__scenes { display: grid; }
+.js .enq__scene {
+  grid-area: 1 / 1; border-top: 0; padding-top: 0;
+  opacity: 0; visibility: hidden;
+  transition: opacity 320ms var(--sc-ease-out), visibility 0s linear 320ms;
+}
+.js .enq__scene.is-active { opacity: 1; visibility: visible; transition: opacity 320ms var(--sc-ease-out), visibility 0s; }
+/* a shorter example keeps its status row on the panel's floor */
+.js .enq__scene { display: flex; flex-direction: column; }
+.js .enq__scene .enq__body { flex: 1; }
+.js .enq__scene .enq__row { margin-top: auto; }
+
+/* each example lands in turn: toast, the email, its rows, then the status */
+.js .enq__scene :is(.enq__toast, .enq__mail, .enq__mail dl > div, .enq__row) {
+  opacity: 0; transform: translateY(10px);
+  transition: opacity 460ms var(--sc-ease-out), transform 460ms var(--sc-ease-out);
+}
+.js .enq__scene .enq__toast { transform: translateY(-12px) scale(0.96); }
+.js .enq.is-live .enq__scene.is-active :is(.enq__toast, .enq__mail, .enq__mail dl > div, .enq__row) { opacity: 1; transform: none; }
+.js .enq.is-live .is-active .enq__mail { transition-delay: 220ms; }
+.js .enq.is-live .is-active .enq__mail dl > div:nth-child(1) { transition-delay: 360ms; }
+.js .enq.is-live .is-active .enq__mail dl > div:nth-child(2) { transition-delay: 430ms; }
+.js .enq.is-live .is-active .enq__mail dl > div:nth-child(3) { transition-delay: 500ms; }
+.js .enq.is-live .is-active .enq__mail dl > div:nth-child(4) { transition-delay: 570ms; }
+.js .enq.is-live .is-active .enq__row { transition-delay: 760ms; }
+.js .enq.is-live .is-active .pill { animation: pop 420ms var(--sc-ease-out) 980ms both; }
+@keyframes pop { from { transform: scale(0.6); opacity: 0; } 60% { transform: scale(1.08); opacity: 1; } to { transform: none; opacity: 1; } }
+
+/* the switcher; the lit tab carries a thin timer while the examples rotate */
+.enq__tabs { display: none; }
+.js .enq__tabs { display: flex; flex-wrap: wrap; gap: 6px; margin: 14px 2px 0; }
+.enq__tabs button {
+  position: relative; overflow: hidden;
+  appearance: none; -webkit-appearance: none; margin: 0;
+  padding: 9px 15px 10px; border-radius: var(--sc-r-pill);
+  border: 1px solid rgba(18, 24, 26, 0.12); background: rgba(253, 253, 251, 0.7);
+  font-family: var(--sc-font-text); font-weight: 500; font-size: 0.86rem; line-height: 1; color: var(--sc-ink-soft);
+  cursor: pointer;
+  transition: background-color 200ms var(--sc-ease-out), color 200ms var(--sc-ease-out), border-color 200ms var(--sc-ease-out);
+}
+@media (hover: hover) and (pointer: fine) { .enq__tabs button:hover { color: var(--sc-ink); border-color: rgba(18, 24, 26, 0.24); } }
+.enq__tabs button[aria-pressed="true"] { background: #0F2629; border-color: #0F2629; color: #fff; }
+.enq__tabs button::after {
+  content: ""; position: absolute; left: 14px; right: 14px; bottom: 4px; height: 2px; border-radius: 2px;
+  background: #7ADDE3; transform: scaleX(0); transform-origin: left center; opacity: 0;
+}
+.enq.is-rotating .enq__tabs button[aria-pressed="true"]::after { opacity: 1; animation: tabfill var(--dwell, 7s) linear forwards; }
+.enq.is-paused .enq__tabs button::after,
+.enq:hover .enq__tabs button::after,
+.enq:focus-within .enq__tabs button::after { animation-play-state: paused; }
+@keyframes tabfill { to { transform: scaleX(1); } }
+
+/* ================================================================ RANGE == */
+.range__stage { display: flex; align-items: center; }
+.rail { align-items: center; gap: clamp(1.25rem, 2.4vw, 2.25rem); padding-inline: var(--sc-gutter); }
+.rail > * { flex: 0 0 auto; }
+.rail__lead { width: clamp(17rem, 27vw, 24rem); }
+.rail__lead .body { margin-top: var(--sc-4); }
+.card {
+  width: clamp(18rem, 29vw, 26rem); min-height: min(27rem, 62svh);
+  display: flex; flex-direction: column; gap: var(--sc-4);
+  padding: clamp(1.8rem, 2.6vw, 2.5rem);
+  border-radius: 26px;
+  background: var(--jb-glass-strong); border: 1px solid var(--jb-line);
+  box-shadow: var(--sc-edge), var(--sc-e3);
+  backdrop-filter: blur(16px); -webkit-backdrop-filter: blur(16px);
+}
+.card__glyph {
+  width: 64px; height: 64px; margin-bottom: var(--sc-4);
+  border-radius: 18px;
+  display: grid; place-items: center;
+  background: color-mix(in oklab, var(--sc-accent) 9%, var(--sc-surface));
+  border: 1px solid color-mix(in oklab, var(--sc-accent) 16%, transparent);
+}
+.card__glyph svg { width: 36px; height: 36px; stroke: var(--sc-accent); fill: none; stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; }
+.card h3 { margin: 0; font-family: var(--sc-font-display); font-weight: 600; font-size: clamp(1.6rem, 1.3rem + 0.8vw, 2rem); letter-spacing: -0.035em; }
+.card p { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-base); line-height: 1.55; text-wrap: pretty; }
+.card__foot { margin-top: auto !important; padding-top: var(--sc-5); border-top: 1px solid var(--jb-line); font-size: 0.92rem !important; }
+.card__foot .textlink { font-size: 0.95rem; }
+.rail__note { width: clamp(15rem, 20vw, 18rem); padding-right: var(--sc-gutter); }
+.rail__note p { margin: 0; font-family: var(--sc-font-display); font-weight: 500; font-size: var(--sc-t-xl); line-height: 1.2; letter-spacing: -0.03em; }
+
+/* ================================================================ ABOUT == */
+.about { padding-block: calc(var(--sc-section) * 0.5) calc(var(--sc-section) * 0.7); }
+.about__grid {
+  display: grid; grid-template-columns: auto 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center;
+  max-width: 72rem;
+  padding: clamp(2rem, 5vw, 4.5rem);
+  background: var(--jb-glass); border: 1px solid var(--jb-line); border-radius: 30px;
+  box-shadow: var(--sc-edge), var(--sc-e3);
+  backdrop-filter: blur(18px); -webkit-backdrop-filter: blur(18px);
+}
+.about__photo {
+  padding: 8px; border-radius: 50%;
+  background: var(--jb-glass-strong); border: 1px solid var(--jb-line); box-shadow: var(--sc-edge), var(--sc-e3);
+}
+.about__photo img { width: clamp(9rem, 16vw, 12.5rem); height: auto; aspect-ratio: 1; border-radius: 50%; object-fit: cover; }
+.aside {
+  margin-top: var(--sc-6) !important; padding: 16px 20px; max-width: 52ch;
+  border-radius: var(--jb-r-sm);
+  background: color-mix(in oklab, var(--sc-accent) 7%, var(--sc-surface));
+  border: 1px solid color-mix(in oklab, var(--sc-accent) 14%, transparent);
+  color: var(--sc-ink);
+}
+
+/* ================================================================ CLOSE == */
+.close { display: flex; flex-direction: column; justify-content: center; }
+.close__grid {
+  width: 100%; max-width: var(--sc-maxw); margin-inline: auto; padding-inline: var(--sc-gutter);
+  display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 5rem); align-items: center;
+}
+.close__title {
+  margin: 0 0 var(--sc-5);
+  font-family: var(--sc-font-display); font-weight: 600;
+  font-size: clamp(3rem, 1rem + 6vw, 7rem); line-height: 0.95; letter-spacing: -0.05em;
+}
+.close__actions { padding: 10px 16px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
+.close__alt { margin: 0; font-size: 0.92rem; color: var(--sc-ink-soft); }
+.close__alt a { color: var(--jb-teal-text); }
+.foot {
+  position: absolute; left: 0; right: 0; bottom: 0;
+  display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px;
+  padding: 18px var(--sc-gutter) calc(18px + env(safe-area-inset-bottom));
+  border-top: 1px solid var(--jb-line);
+  font-size: 0.85rem; color: var(--sc-ink-soft);
+}
+.foot a { color: var(--sc-ink-soft); }
+.brand--foot { font-size: 0.9rem; margin-right: auto; }
+
+/* ============================================================ PHONES == */
+@media (max-width: 860px) {
+  .bar { padding-top: 10px; }
+  .bar::before { inset: 8px 10px auto; height: 54px; }
+  .bar__inner { height: 46px; padding-inline: 4px; }
+
+  /* the headline gives up its space and the map rises into it */
+  .hero-copy { top: 96px; translate: none; width: auto; right: var(--sc-gutter); opacity: calc(1 - var(--e)); }
+  .byline { margin-bottom: var(--sc-4); font-size: 0.8rem; }
+  .byline img { width: 32px; height: 32px; }
+  .hero-title { font-size: clamp(2.4rem, 12.4vw, 3.6rem); }
+  .hero-sub { font-size: 1.02rem; margin-top: var(--sc-4); }
+  .hero-cta { margin-top: var(--sc-5); gap: var(--sc-4); }
+  /* at rest it peeks up under the buttons; risen, it sits centred under the bar */
+  .map-move {
+    left: var(--sc-gutter); right: var(--sc-gutter); width: auto;
+    top: calc(50% + 28px);
+    transform: translate3d(0, calc(-50% + (1 - var(--e)) * 30svh), 0);
+  }
+  .map__svg--wide { display: none; }
+  .map__svg--tall { display: block; }
+  .console { --core-x: 50%; }
+  .map text { font-size: 13px; }
+  .map__svg--tall .map__node--out text { font-size: 12.5px; }
+  .map .map__coreText { font-size: 11px; }
+  .map__cap { font-size: 0.95rem; }
+
+  .proof__grid { grid-template-columns: 1fr; grid-template-areas: "head" "left" "enq"; padding: 1.15rem; border-radius: 24px; }
+  .proof__head { padding: 0.5rem 0.4rem 0; }
+  /* the two numbers side by side, each label under its number */
+  .stats { padding-inline: 0.4rem; flex-wrap: nowrap; gap: 1.5rem; }
+  .stat { flex: 1; flex-direction: column; align-items: flex-start; gap: 6px; }
+  .stat__v { font-size: 2.6rem; }
+  .stat__l { max-width: 16ch; font-size: 0.88rem; }
+  .quote__mark { font-size: 3.6rem; top: -0.1em; right: 0.3em; }
+  .enq__body { padding: 12px; }
+  .enq__mail { padding: 12px 13px; }
+  .enq__mail dl div { grid-template-columns: 4.6rem 1fr; }
+  .about__grid { grid-template-columns: 1fr; }
+  .rail__lead, .card { width: min(80vw, 22rem); }
+  .close__grid { grid-template-columns: 1fr; gap: var(--sc-6); padding-bottom: 5rem; }
+  .close__title { font-size: 3.2rem; margin-bottom: var(--sc-3); }
+  .foot { gap: 6px 16px; font-size: 0.78rem; }
+}
+
+/* very narrow phones: the example's values stay on one line each */
+@media (max-width: 380px) {
+  .proof__grid { padding: 0.9rem; }
+  .enq__mail dl { font-size: 0.84rem; }
+  .enq__mail dl div { grid-template-columns: 4.1rem 1fr; }
+}
+
+/* compact phones (360 × 640): keep the headline and the map apart */
+@media (max-width: 860px) and (max-height: 700px) {
+  .hero-copy { top: 80px; }
+  .hero-sub { display: none; }
+  .map-move { transform: translate3d(0, calc(-50% + (1 - var(--e)) * 38svh), 0); }
+  .map__cap { display: none; }
+}
+
+/* ===================================================== REDUCED MOTION ==
+   Fewer and gentler, not zero: nothing travels. On phones the map is placed
+   rather than risen; everywhere, the enquiry simply appears.               */
+@media (prefers-reduced-motion: reduce) {
+  .js .enq__scene :is(.enq__toast, .enq__mail, .enq__mail dl > div, .enq__row) { transform: none !important; transition-duration: 200ms; transition-delay: 0s !important; }
+  .js .enq.is-live .is-active .pill { animation: none; }
+  .map__core.is-on .map__orbit, .console__status.is-wiring i { animation: none; }
+}
+@media (prefers-reduced-motion: reduce) and (max-width: 860px) {
+  /* can't rise, so it crossfades in as the headline fades out */
+  .map-move { transform: translate3d(0, -50%, 0) !important; opacity: var(--e); }
+}
