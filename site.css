@@ -400,6 +400,21 @@ body { position: relative; }
 .enq__muted { flex-basis: 100%; color: var(--sc-ink-soft); font-size: 0.84rem; }
 .enq__note { margin: 10px 4px 0; font-size: 0.8rem; line-height: 1.4; color: var(--sc-ink-soft); }
 
+/* A beat on the proof (Jack, 14 Sep: it scrolled past too fast). Where the
+   section fits one screen under the bar (site.js measures and sets .is-held)
+   it arrives, holds still for most of a screen while the examples rotate,
+   then leaves: the hero's rhythm, without an act. Phones and short laptops
+   scroll it normally, since it's taller than their screen.                 */
+@media (min-width: 861px) {
+  .proof.is-held { height: 175vh; padding-block: 0; }
+  .proof.is-held > .sc-wrap {
+    position: sticky; top: 0;
+    height: 100vh; height: 100svh;
+    display: flex; flex-direction: column; justify-content: center;
+    padding-top: 64px;   /* centre it in the space under the bar */
+  }
+}
+
 /* Four examples. Without JS they simply stack; with it they share one grid
    cell (so the panel never changes height) and take turns (site.js).      */
 .enq__scene + .enq__scene { border-top: 1px solid var(--jb-line); padding-top: 12px; }
@@ -566,6 +581,8 @@ body { position: relative; }
   .enq__mail { padding: 12px 13px; }
   .enq__mail dl div { grid-template-columns: 4.6rem 1fr; }
   .about__grid { grid-template-columns: 1fr; }
+  /* one column stretches its items: keep the photo's ring hugging the photo */
+  .about__photo { justify-self: start; }
   .rail__lead, .card { width: min(80vw, 22rem); }
   .close__grid { grid-template-columns: 1fr; gap: var(--sc-6); padding-bottom: 5rem; }
   .close__title { font-size: 3.2rem; margin-bottom: var(--sc-3); }

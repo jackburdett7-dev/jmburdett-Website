@@ -328,6 +328,20 @@
     } else { enq.classList.add('is-live'); }
   }
 
+  /* The proof holds for a beat (site.css) only where it fits one screen under
+     the bar. Measured, not a media query: its height follows width and fonts.
+     When that flips, the page below moves, so the engine measures again.    */
+  var proof = d.querySelector('.proof');
+  var proofGrid = proof && proof.querySelector('.proof__grid');
+  function fitProof() {
+    if (!proofGrid) return false;
+    var fits = innerWidth > 860 && proofGrid.offsetHeight + 64 + 16 <= innerHeight;
+    if (fits === proof.classList.contains('is-held')) return false;
+    proof.classList.toggle('is-held', fits);
+    return true;
+  }
+  addEventListener('resize', function () { if (fitProof()) dispatchEvent(new Event('resize')); });
+
   /* --------------------------------------------------------- 5. keyboard
      The engine centres focus inside a faded cue, and says plainly that it
      cannot fix a PINNED act (verify.md). Each pinned act with a control is
