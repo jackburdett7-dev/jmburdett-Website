@@ -1,6 +1,10 @@
 /* ==========================================================================
    jmburdett · page styles. The engine (scrollcraft.css/js) is untouched;
    everything here themes it or styles this page's own markup.
+   Since 22 Sep (Jack): no smooth-scroll and nothing that follows the
+   pointer. What still moves, because Jack likes it: the Lead Assistant
+   panel beside Michael's quote (examples land and rotate) and the services
+   rail, which pans sideways as the page scrolls. The hero is type only.
    ========================================================================== */
 
 :root {
@@ -34,14 +38,6 @@
 html { background: var(--sc-canvas); }
 body { background: transparent; }
 .sc-grain { opacity: 0.028; }
-
-/* Lenis (smooth wheel, slowed a touch; site.js): its own 1.3 rules, plus
-   native smooth scrolling off while it runs, so the two never compete. */
-html.lenis, html.lenis body { height: auto; }
-html.lenis { scroll-behavior: auto !important; }
-.lenis:not(.lenis-autoToggle).lenis-stopped { overflow: clip; }
-.lenis [data-lenis-prevent] { overscroll-behavior: contain; }
-.lenis.lenis-smooth iframe { pointer-events: none; }
 
 /* ------------------------------------------------------------------ type
    Margins are reset with :where() (zero specificity) so the engine's
@@ -95,9 +91,9 @@ html.lenis { scroll-behavior: auto !important; }
 
 /* ------------------------------------------------------------- the field
    A full-page layer BEHIND the content, holding a sticky viewport-sized
-   canvas. Sticky rather than fixed: it paints identically, and the contrast
-   pass (which hides fixed chrome as if it sat in front of the text) then
-   measures each line against the light that is really behind it.          */
+   canvas painted once (site.js). Sticky rather than fixed: it paints the
+   same, and contrast checks then measure each line against the light that
+   is really behind it.                                                    */
 body { position: relative; }
 .field-wrap { position: absolute; inset: 0; z-index: -1; pointer-events: none; }
 #field, .field-fallback { position: sticky; top: 0; display: block; width: 100%; height: 100vh; height: 100lvh; }
@@ -137,136 +133,35 @@ body { position: relative; }
 }
 
 /* ================================================================= HERO ==
-   One pinned act and the page's peak. The copy holds; the system map beside
-   it wires itself up from the scroll (site.js). On phones the map rises into
-   the space the headline gives up.                                         */
+   The promise on its own, large (Jack, 22 Sep: "make it bigger"). The
+   headline is sized from the page's width (cqi), so its longest line fills
+   most of the row without ever running off it.                           */
 .hero {
-  --p: var(--sc-p, 0);
-  --rise: clamp(0, (var(--p) - 0.02) / 0.18, 1);
-  --e: calc(var(--rise) * var(--rise) * (3 - 2 * var(--rise)));
+  display: flex; flex-direction: column; justify-content: center;
+  min-height: 100vh; min-height: 100svh;
+  padding: 96px var(--sc-gutter) clamp(2.5rem, 6vh, 4rem);
 }
-.hero-copy {
-  position: absolute; z-index: 3;
-  left: var(--sc-gutter); top: 50%; translate: 0 -46%;
-  width: min(47rem, 52vw);
-}
+.hero-copy { position: relative; z-index: 3; container-type: inline-size; }
 .byline {
   display: flex; align-items: center; gap: 12px;
   margin: 0 0 var(--sc-6);
   font-size: var(--sc-t-sm); color: var(--sc-ink-soft);
 }
 .byline img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--sc-surface), var(--sc-e1); }
-/* the headline is the message and the largest thing on the screen; its
-   longest line is ~7em, so 6.6vw always fits the 52vw column            */
 .hero-title {
   font-family: var(--sc-font-display); font-weight: 600;
-  font-size: clamp(2.8rem, 6.6vw, 6.6rem);
-  line-height: 0.98; letter-spacing: -0.045em;
+  font-size: clamp(2.8rem, 8.6vw, 10.5rem);
+  font-size: clamp(2.8rem, 9.6cqi, 10.5rem);
+  line-height: 0.95; letter-spacing: -0.05em;
   margin: 0;
 }
 .hero-sub {
-  margin: var(--sc-5) 0 0;
-  max-width: 31ch;
-  font-size: var(--sc-t-lg); line-height: 1.45; letter-spacing: -0.01em;
+  margin: var(--sc-6) 0 0;
+  max-width: 40ch;
+  font-size: clamp(1.15rem, 1rem + 0.45vw, 1.45rem); line-height: 1.45; letter-spacing: -0.01em;
   color: var(--sc-ink-soft); text-wrap: pretty;
 }
 .hero-cta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sc-5); margin: var(--sc-6) 0 0; }
-
-/* the map: clearly second to the headline, and legible at every width */
-.map-move {
-  position: absolute; z-index: 2;
-  right: var(--sc-gutter); top: 50%;
-  width: min(35rem, calc(54vw - 2 * var(--sc-gutter) - 2.5rem));
-  transform: translateY(-50%);
-}
-.map-depth { will-change: transform; }
-.map { margin: 0; }
-
-/* The map floats on the page, no panel. Its tiles lift off the light, each
-   icon sits in a badge that fills with teal as it switches on, and the core
-   is the one solid mass. The status pill sits over the core.              */
-.console { --core-x: 53.125%; position: relative; }
-.console__bar { position: relative; height: 34px; margin-bottom: 6px; }
-.console__status {
-  position: absolute; top: 0; left: var(--core-x); transform: translateX(-50%);
-  display: inline-flex; align-items: center; gap: 8px; white-space: nowrap;
-  padding: 7px 13px 6px; border-radius: var(--sc-r-pill);
-  background: var(--jb-glass-strong); border: 1px solid var(--jb-line);
-  box-shadow: var(--sc-edge), var(--sc-e1);
-  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.64rem; letter-spacing: 0.16em; text-transform: uppercase;
-  color: var(--sc-ink-soft);
-  transition: color 300ms var(--sc-ease-out), border-color 300ms var(--sc-ease-out), background-color 300ms var(--sc-ease-out);
-}
-.console__status i { width: 7px; height: 7px; border-radius: 50%; background: #9AA7A8; transition: background-color 300ms, box-shadow 300ms; }
-.console__status.is-wiring { color: var(--jb-teal-text); border-color: color-mix(in oklab, var(--sc-accent) 35%, transparent); }
-.console__status.is-wiring i { background: var(--sc-accent); animation: blink 1s ease-in-out infinite; }
-.console__status.is-run { color: #0E6843; border-color: rgba(31, 169, 113, 0.42); background: #EFFAF4; }
-.console__status.is-run i { background: #1FA971; box-shadow: 0 0 0 3px rgba(31, 169, 113, 0.18), 0 0 10px rgba(31, 169, 113, 0.65); }
-@keyframes blink { 50% { opacity: 0.3; } }
-
-.map__svg { display: block; width: 100%; height: auto; overflow: visible; }
-.map__svg--tall { display: none; }
-
-.map text { font-family: var(--sc-font-text); font-size: 15px; font-weight: 500; fill: var(--sc-ink); transition: fill 260ms var(--sc-ease-out); }
-.map .map__sub { font-size: 12px; font-weight: 400; fill: var(--sc-ink-soft); }
-.map__svg--wide .map__node--out text { font-size: 14px; }
-.map__heads text { font-family: var(--sc-font-display); font-weight: 600; font-size: 10.5px; letter-spacing: 0.22em; fill: var(--jb-teal-text); }
-
-.map__glow { opacity: 0.3; }
-.map__ghosts path { fill: none; stroke: rgba(18, 24, 26, 0.2); stroke-width: 1.2; stroke-dasharray: 2 5; }
-.map__path { fill: none; stroke-width: 2.6; stroke-linecap: round; }
-.map__trail { fill: none; stroke: #3CCAD4; stroke-width: 3.2; stroke-linecap: round; opacity: 0; }
-.map__pulse { fill: #fff; stroke: var(--sc-accent); stroke-width: 2.2; opacity: 0; }
-
-/* tiles: white glass lifted off the page (badges and icons are rects too) */
-.map__node > rect:not(.map__badge) {
-  fill: rgba(253, 253, 251, 0.94); stroke: rgba(18, 24, 26, 0.08); stroke-width: 1;
-  transition: fill 260ms var(--sc-ease-out), stroke 260ms var(--sc-ease-out);
-}
-.map__svg--wide .map__node > rect:not(.map__badge) { filter: url(#liftW); }
-.map__svg--tall .map__node > rect:not(.map__badge) { filter: url(#liftT); }
-.map__node.is-on > rect:not(.map__badge) { fill: #fff; stroke: color-mix(in oklab, var(--sc-accent) 45%, transparent); }
-.map__svg--wide .map__node.is-on > rect:not(.map__badge) { filter: url(#liftOnW); }
-.map__svg--tall .map__node.is-on > rect:not(.map__badge) { filter: url(#liftOnT); }
-.map__badge { fill: color-mix(in oklab, var(--sc-accent) 9%, #fff); transition: fill 260ms var(--sc-ease-out); }
-.map__node.is-on .map__badge { fill: var(--sc-accent); }
-.map__icon { fill: none; stroke: var(--jb-teal-text); stroke-width: 1.6; stroke-linecap: round; stroke-linejoin: round; transition: stroke 260ms var(--sc-ease-out); }
-.map__node.is-on .map__icon { stroke: #fff; }
-.js .map__node:not(.is-on) text:not(.map__sub) { fill: var(--sc-ink-soft); }
-
-/* the core: glass and dashed at rest; a solid block of teal light once on */
-.map__orbit {
-  fill: none; stroke: color-mix(in oklab, var(--sc-accent) 55%, transparent); stroke-width: 1.4; stroke-dasharray: 2 8; stroke-linecap: round;
-  opacity: 0.4; transform-box: fill-box; transform-origin: center;
-  transition: opacity 420ms var(--sc-ease-out);
-}
-.map__core.is-on .map__orbit { opacity: 1; animation: orbit 36s linear infinite; }
-@keyframes orbit { to { transform: rotate(360deg); } }
-.map__coreBox { fill: rgba(253, 253, 251, 0.96); stroke: rgba(18, 24, 26, 0.08); stroke-width: 1; }
-.map__svg--wide .map__coreBox { filter: url(#liftW); }
-.map__svg--tall .map__coreBox { filter: url(#liftT); }
-.map__coreFill { opacity: 0; transition: opacity 460ms var(--sc-ease-out); }
-.map__core.is-on .map__coreFill { opacity: 1; }
-.map__svg--wide .map__core.is-on .map__coreFill { filter: url(#coreGlowW); }
-.map__svg--tall .map__core.is-on .map__coreFill { filter: url(#coreGlowT); }
-.map__glyph circle { fill: none; stroke: rgba(18, 24, 26, 0.3); stroke-width: 2; transition: stroke 320ms var(--sc-ease-out); }
-.map__core.is-on .map__glyph circle { stroke: #fff; }
-.map .map__coreText { font-size: 13px; font-weight: 600; fill: var(--sc-ink-soft); }
-.map__core.is-on .map__coreText { fill: #fff; }
-.map__ring { fill: none; stroke: var(--sc-accent); stroke-width: 2; opacity: 0; transform-box: fill-box; transform-origin: center; }
-.map__cap { margin: var(--sc-5) 0 0; text-align: center; font-size: var(--sc-t-base); color: var(--sc-ink); }
-
-/* narrower laptops: the wide drawing would shrink past legible, so the
-   compact one stands in, still second to the headline */
-@media (min-width: 861px) and (max-width: 1279px) {
-  .map-move { width: min(25rem, calc(54vw - 2 * var(--sc-gutter) - 2.5rem)); }
-  .map__svg--wide { display: none; }
-  .map__svg--tall { display: block; }
-  .console { --core-x: 50%; }
-  .map text { font-size: 13px; }
-  .map__svg--tall .map__node--out text { font-size: 12.5px; }
-  .map .map__coreText { font-size: 11px; }
-}
 
 /* ------------------------------------------------- shared product panels */
 .la {
@@ -312,10 +207,9 @@ body { position: relative; }
 }
 
 /* ================================================================ PROOF ==
-   One screen: the client's own words, and the thing itself working beside
-   them. Layout after the old jmburdett.com block (a quote with a badge, the
-   product in its own surface). No figures: outsiders can't weigh them.    */
-.proof { padding-block: calc(var(--sc-section) * 0.85) calc(var(--sc-section) * 0.75); }
+   The client's own words, and the thing itself working beside them. No
+   figures: outsiders can't weigh them.                                    */
+.proof { padding-block: calc(var(--sc-section) * 0.6) calc(var(--sc-section) * 0.55); }
 .proof .sc-wrap { max-width: 80rem; }
 .proof__grid {
   display: grid; grid-template-columns: 1.05fr 1fr;
@@ -400,21 +294,6 @@ body { position: relative; }
 .enq__muted { flex-basis: 100%; color: var(--sc-ink-soft); font-size: 0.84rem; }
 .enq__note { margin: 10px 4px 0; font-size: 0.8rem; line-height: 1.4; color: var(--sc-ink-soft); }
 
-/* A beat on the proof (Jack, 14 Sep: it scrolled past too fast). Where the
-   section fits one screen under the bar (site.js measures and sets .is-held)
-   it arrives, holds still for most of a screen while the examples rotate,
-   then leaves: the hero's rhythm, without an act. Phones and short laptops
-   scroll it normally, since it's taller than their screen.                 */
-@media (min-width: 861px) {
-  .proof.is-held { height: 175vh; padding-block: 0; }
-  .proof.is-held > .sc-wrap {
-    position: sticky; top: 0;
-    height: 100vh; height: 100svh;
-    display: flex; flex-direction: column; justify-content: center;
-    padding-top: 64px;   /* centre it in the space under the bar */
-  }
-}
-
 /* Four examples. Without JS they simply stack; with it they share one grid
    cell (so the panel never changes height) and take turns (site.js).      */
 .enq__scene + .enq__scene { border-top: 1px solid var(--jb-line); padding-top: 12px; }
@@ -470,7 +349,9 @@ body { position: relative; }
 .enq:focus-within .enq__tabs button::after { animation-play-state: paused; }
 @keyframes tabfill { to { transform: scaleX(1); } }
 
-/* ================================================================ RANGE == */
+/* ================================================================ RANGE ==
+   One pinned act: the rail of services pans sideways as the page scrolls
+   (Jack, 22 Sep: keep it). The cards no longer tilt toward the pointer.  */
 .range__stage { display: flex; align-items: center; }
 .rail { align-items: center; gap: clamp(1.25rem, 2.4vw, 2.25rem); padding-inline: var(--sc-gutter); }
 .rail > * { flex: 0 0 auto; }
@@ -496,12 +377,11 @@ body { position: relative; }
 .card h3 { margin: 0; font-family: var(--sc-font-display); font-weight: 600; font-size: clamp(1.6rem, 1.3rem + 0.8vw, 2rem); letter-spacing: -0.035em; }
 .card p { margin: 0; color: var(--sc-ink-soft); font-size: var(--sc-t-base); line-height: 1.55; text-wrap: pretty; }
 .card__foot { margin-top: auto !important; padding-top: var(--sc-5); border-top: 1px solid var(--jb-line); font-size: 0.92rem !important; }
-.card__foot .textlink { font-size: 0.95rem; }
 .rail__note { width: clamp(15rem, 20vw, 18rem); padding-right: var(--sc-gutter); }
 .rail__note p { margin: 0; font-family: var(--sc-font-display); font-weight: 500; font-size: var(--sc-t-xl); line-height: 1.2; letter-spacing: -0.03em; }
 
 /* ================================================================ ABOUT == */
-.about { padding-block: calc(var(--sc-section) * 0.5) calc(var(--sc-section) * 0.7); }
+.about { padding-block: calc(var(--sc-section) * 0.5) calc(var(--sc-section) * 0.5); }
 .about__grid {
   display: grid; grid-template-columns: auto 1fr; gap: clamp(2rem, 6vw, 5rem); align-items: center;
   max-width: 72rem;
@@ -524,7 +404,7 @@ body { position: relative; }
 }
 
 /* ================================================================ CLOSE == */
-.close { display: flex; flex-direction: column; justify-content: center; }
+.close { padding-block: calc(var(--sc-section) * 0.5) calc(var(--sc-section) * 0.8); }
 .close__grid {
   width: 100%; max-width: var(--sc-maxw); margin-inline: auto; padding-inline: var(--sc-gutter);
   display: grid; grid-template-columns: 1.1fr 0.9fr; gap: clamp(2rem, 5vw, 5rem); align-items: center;
@@ -532,13 +412,13 @@ body { position: relative; }
 .close__title {
   margin: 0 0 var(--sc-5);
   font-family: var(--sc-font-display); font-weight: 600;
-  font-size: clamp(3rem, 1rem + 6vw, 7rem); line-height: 0.95; letter-spacing: -0.05em;
+  font-size: clamp(2.6rem, 1rem + 4.2vw, 5.2rem); line-height: 1; letter-spacing: -0.045em;
+  text-wrap: balance;
 }
 .close__actions { padding: 10px 16px 20px; display: flex; flex-direction: column; align-items: flex-start; gap: 12px; }
 .close__alt { margin: 0; font-size: 0.92rem; color: var(--sc-ink-soft); }
 .close__alt a { color: var(--jb-teal-text); }
 .foot {
-  position: absolute; left: 0; right: 0; bottom: 0;
   display: flex; flex-wrap: wrap; align-items: center; gap: 10px 28px;
   padding: 18px var(--sc-gutter) calc(18px + env(safe-area-inset-bottom));
   border-top: 1px solid var(--jb-line);
@@ -553,26 +433,13 @@ body { position: relative; }
   .bar::before { inset: 8px 10px auto; height: 54px; }
   .bar__inner { height: 46px; padding-inline: 4px; }
 
-  /* the headline gives up its space and the map rises into it */
-  .hero-copy { top: 96px; translate: none; width: auto; right: var(--sc-gutter); opacity: calc(1 - var(--e)); }
-  .byline { margin-bottom: var(--sc-4); font-size: 0.8rem; }
+  /* the headline fills the phone's width; the section after it follows on */
+  .hero { min-height: 0; padding-top: 112px; padding-bottom: var(--sc-7); }
+  .byline { margin-bottom: var(--sc-5); font-size: 0.8rem; }
   .byline img { width: 32px; height: 32px; }
-  .hero-title { font-size: clamp(2.4rem, 12.4vw, 3.6rem); }
-  .hero-sub { font-size: 1.02rem; margin-top: var(--sc-4); }
-  .hero-cta { margin-top: var(--sc-5); gap: var(--sc-4); }
-  /* at rest it peeks up under the buttons; risen, it sits centred under the bar */
-  .map-move {
-    left: var(--sc-gutter); right: var(--sc-gutter); width: auto;
-    top: calc(50% + 28px);
-    transform: translate3d(0, calc(-50% + (1 - var(--e)) * 30svh), 0);
-  }
-  .map__svg--wide { display: none; }
-  .map__svg--tall { display: block; }
-  .console { --core-x: 50%; }
-  .map text { font-size: 13px; }
-  .map__svg--tall .map__node--out text { font-size: 12.5px; }
-  .map .map__coreText { font-size: 11px; }
-  .map__cap { font-size: 0.95rem; }
+  .hero-title { font-size: clamp(2.4rem, 13.4vw, 4.4rem); font-size: clamp(2.4rem, 13.5cqi, 4.4rem); }
+  .hero-sub { font-size: 1.05rem; margin-top: var(--sc-5); }
+  .hero-cta { margin-top: var(--sc-6); gap: var(--sc-4); }
 
   .proof__grid { grid-template-columns: 1fr; grid-template-areas: "head" "left" "enq"; padding: 1.15rem; border-radius: 24px; }
   .proof__head { padding: 0.5rem 0.4rem 0; }
@@ -584,8 +451,7 @@ body { position: relative; }
   /* one column stretches its items: keep the photo's ring hugging the photo */
   .about__photo { justify-self: start; }
   .rail__lead, .card { width: min(80vw, 22rem); }
-  .close__grid { grid-template-columns: 1fr; gap: var(--sc-6); padding-bottom: 5rem; }
-  .close__title { font-size: 3.2rem; margin-bottom: var(--sc-3); }
+  .close__grid { grid-template-columns: 1fr; gap: var(--sc-6); }
   .foot { gap: 6px 16px; font-size: 0.78rem; }
 }
 
@@ -596,23 +462,10 @@ body { position: relative; }
   .enq__mail dl div { grid-template-columns: 4.1rem 1fr; }
 }
 
-/* compact phones (360 × 640): keep the headline and the map apart */
-@media (max-width: 860px) and (max-height: 700px) {
-  .hero-copy { top: 80px; }
-  .hero-sub { display: none; }
-  .map-move { transform: translate3d(0, calc(-50% + (1 - var(--e)) * 38svh), 0); }
-  .map__cap { display: none; }
-}
-
 /* ===================================================== REDUCED MOTION ==
-   Fewer and gentler, not zero: nothing travels. On phones the map is placed
-   rather than risen; everywhere, the enquiry simply appears.               */
+   Fewer and gentler, not zero: the enquiry simply appears, nothing rotates
+   (site.js), and the engine turns the rail into a swipeable row.          */
 @media (prefers-reduced-motion: reduce) {
   .js .enq__scene :is(.enq__toast, .enq__mail, .enq__mail dl > div, .enq__row) { transform: none !important; transition-duration: 200ms; transition-delay: 0s !important; }
   .js .enq.is-live .is-active .pill { animation: none; }
-  .map__core.is-on .map__orbit, .console__status.is-wiring i { animation: none; }
-}
-@media (prefers-reduced-motion: reduce) and (max-width: 860px) {
-  /* can't rise, so it crossfades in as the headline fades out */
-  .map-move { transform: translate3d(0, -50%, 0) !important; opacity: var(--e); }
 }

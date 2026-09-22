@@ -9,19 +9,21 @@
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="JMBurdett Systems">
 <meta property="og:title" content="JMBurdett Systems · AI automation, done for you">
-<meta property="og:description" content="Systems that answer your enquiries, chase the quiet ones and give you your evenings back. Built and run by Jack Burdett.">
+<meta property="og:description" content="Systems that answer your website enquiries in seconds, follow up the quiet ones and take repeat jobs off your desk. Built and run by Jack Burdett.">
 <meta property="og:url" content="https://jmburdett.com/">
 <meta property="og:image" content="https://jmburdett.com/og.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="theme-color" content="#F2F1EE">
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230E7C86'/%3E%3Ctext x='16' y='22' font-family='sans-serif' font-size='16' font-weight='700' fill='%23ffffff' text-anchor='middle'%3EJ%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="/favicon.ico" sizes="32x32">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Sora:wght@400;500;600;700&family=Outfit:wght@300;400;500&display=swap" rel="stylesheet">
 <link rel="stylesheet" href="scrollcraft.css">
 <link rel="stylesheet" href="site.css">
 <script>document.documentElement.classList.add('js');</script>
-<noscript><style>[data-sc-cue],[data-sc-in],[data-sc-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>
+<noscript><style>[data-sc-in],[data-sc-stagger]>*{opacity:1!important;transform:none!important}</style></noscript>
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
@@ -53,7 +55,6 @@
 
 <div class="field-wrap" aria-hidden="true"><canvas id="field"></canvas><div class="field-fallback"></div></div>
 <div class="sc-grain" aria-hidden="true"></div>
-<span data-sc-progress></span>
 
 <header class="bar" id="bar">
   <div class="bar__inner">
@@ -64,213 +65,31 @@
 
 <main id="top">
 
-  <!-- 1 · PEAK: the system wires itself up under the reader's hand. -->
-  <section id="hero" data-sc-act="pin" data-sc-span="2.2">
-    <div data-sc-stage class="hero">
+  <!-- 1 · The promise, on its own and large (Jack, 22 Sep: no map, no panel
+       here; "keep AI automation done for you but make it bigger"). -->
+  <section id="hero" class="hero">
 
       <div class="hero-copy">
         <p class="byline"><img src="assets/jack.jpg" width="40" height="40" alt="">Jack Burdett · Surrey · I build every system myself</p>
         <h1 class="hero-title">AI automation,<br><span class="accent">done for you.</span></h1>
-        <p class="hero-sub">I build and run the systems that answer your enquiries, chase the quiet ones, and give you your evenings back.</p>
+        <p class="hero-sub">I build and run systems that answer your website enquiries in seconds, follow up the quiet ones and take repeat jobs off your desk.</p>
         <p class="hero-cta">
           <a class="btn" href="https://cal.com/jackburdett/introcall" target="_blank" rel="noopener">Book a call</a>
-          <a class="textlink" href="#how" id="see-it">See how it works</a>
+          <a class="textlink" href="#build">See what I build</a>
         </p>
       </div>
 
-      <div class="map-move">
-        <div class="map-depth" data-depth="0.5">
-          <figure class="map" id="how" data-sc-verify-state="">
-            <div class="console">
-              <div class="console__bar" aria-hidden="true">
-                <span class="console__status" id="status"><i></i><span>Standby</span></span>
-              </div>
-
-              <!-- wide: left to right -->
-              <svg class="map__svg map__svg--wide" viewBox="0 0 640 470" role="img" aria-labelledby="map-t map-d">
-                <title id="map-t">How it works</title>
-                <desc id="map-d">Website enquiries, old enquiries and the jobs you repeat flow into one system, built and run by Jack. What lands with you: every enquiry answered in seconds, the details in your inbox, the lead on your dashboard, and a follow-up after 48 hours.</desc>
-                <defs>
-                  <pattern id="dotsW" width="16" height="16" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1.1" fill="#0E7C86" fill-opacity="0.13"/></pattern>
-                  <radialGradient id="fadeW" cx="0.5" cy="0.52" r="0.62"><stop offset="0.25" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
-                  <mask id="gridW"><rect width="640" height="470" fill="url(#fadeW)"/></mask>
-                  <filter id="haloW" filterUnits="userSpaceOnUse" x="0" y="0" width="640" height="470"><feGaussianBlur stdDeviation="2.6" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <filter id="liftW" x="-20%" y="-45%" width="140%" height="210%"><feDropShadow dx="0" dy="7" stdDeviation="8" flood-color="#0C3C42" flood-opacity="0.13"/></filter>
-                  <filter id="liftOnW" x="-25%" y="-55%" width="150%" height="230%"><feDropShadow dx="0" dy="7" stdDeviation="10" flood-color="#0E7C86" flood-opacity="0.24"/></filter>
-                  <filter id="coreGlowW" x="-70%" y="-70%" width="240%" height="240%"><feDropShadow dx="0" dy="12" stdDeviation="18" flood-color="#0E7C86" flood-opacity="0.45"/></filter>
-                  <radialGradient id="glowW"><stop offset="0" stop-color="#2FB3BE" stop-opacity="0.22"/><stop offset="1" stop-color="#4FB3BC" stop-opacity="0"/></radialGradient>
-                  <linearGradient id="flowW" gradientUnits="userSpaceOnUse" x1="194" y1="0" x2="444" y2="0"><stop offset="0" stop-color="#0B6A73"/><stop offset="1" stop-color="#18A7B2"/></linearGradient>
-                  <linearGradient id="coreW" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17AAB5"/><stop offset="1" stop-color="#0A5C64"/></linearGradient>
-                </defs>
-                <rect class="map__grid" width="640" height="470" fill="url(#dotsW)" mask="url(#gridW)"/>
-                <circle class="map__glow" cx="340" cy="240" r="200" fill="url(#glowW)"/>
-                <g class="map__heads" aria-hidden="true">
-                  <text x="10" y="42">COMES IN</text>
-                  <text x="340" y="138" text-anchor="middle">YOUR SYSTEM</text>
-                  <text x="630" y="38" text-anchor="end">LANDS WITH YOU</text>
-                </g>
-                <g class="map__ghosts" aria-hidden="true">
-                  <path d="M194 100 C 240 100 234 215 280 215"/>
-                  <path d="M194 240 L 280 240"/>
-                  <path d="M194 380 C 240 380 234 265 280 265"/>
-                  <path d="M400 210 C 424 210 420 78 444 78"/>
-                  <path d="M400 230 C 424 230 420 186 444 186"/>
-                  <path d="M400 250 C 424 250 420 294 444 294"/>
-                  <path d="M400 270 C 424 270 420 402 444 402"/>
-                </g>
-                <g class="map__paths" aria-hidden="true" stroke="url(#flowW)">
-                  <path class="map__path" data-draw="0.04 0.22" d="M194 100 C 240 100 234 215 280 215"/>
-                  <path class="map__path" data-draw="0.10 0.26" d="M194 240 L 280 240"/>
-                  <path class="map__path" data-draw="0.16 0.30" d="M194 380 C 240 380 234 265 280 265"/>
-                  <path class="map__path" data-draw="0.42 0.57" d="M400 210 C 424 210 420 78 444 78"/>
-                  <path class="map__path" data-draw="0.48 0.63" d="M400 230 C 424 230 420 186 444 186"/>
-                  <path class="map__path" data-draw="0.54 0.69" d="M400 250 C 424 250 420 294 444 294"/>
-                  <path class="map__path" data-draw="0.60 0.75" d="M400 270 C 424 270 420 402 444 402"/>
-                </g>
-                <g class="map__trails" aria-hidden="true" filter="url(#haloW)">
-                  <path class="map__trail" d="M194 100 C 240 100 234 215 280 215"/>
-                  <path class="map__trail" d="M194 240 L 280 240"/>
-                  <path class="map__trail" d="M194 380 C 240 380 234 265 280 265"/>
-                  <path class="map__trail" d="M400 210 C 424 210 420 78 444 78"/>
-                  <path class="map__trail" d="M400 230 C 424 230 420 186 444 186"/>
-                  <path class="map__trail" d="M400 250 C 424 250 420 294 444 294"/>
-                  <path class="map__trail" d="M400 270 C 424 270 420 402 444 402"/>
-                </g>
-                <g class="map__pulses" aria-hidden="true" filter="url(#haloW)">
-                  <circle class="map__pulse" r="4"/><circle class="map__pulse" r="4"/><circle class="map__pulse" r="4"/>
-                  <circle class="map__pulse" r="4"/><circle class="map__pulse" r="4"/><circle class="map__pulse" r="4"/><circle class="map__pulse" r="4"/>
-                </g>
-
-                <g class="map__node" data-on="0.04" transform="translate(10 72)">
-                  <rect width="184" height="56" rx="14"/>
-                  <rect class="map__badge" x="9" y="13" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 18)"><rect x="1.5" y="2.5" width="17" height="15" rx="3"/><path d="M1.5 7.2h17"/></g>
-                  <text x="48" y="25">Website enquiries</text><text class="map__sub" x="48" y="43">any hour, any day</text>
-                </g>
-                <g class="map__node" data-on="0.10" transform="translate(10 212)">
-                  <rect width="184" height="56" rx="14"/>
-                  <rect class="map__badge" x="9" y="13" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 18)"><path d="M3.5 10a6.5 6.5 0 1 0 2-4.7"/><path d="M3.2 3v3h3"/><path d="M10 6.5V10l2.5 1.8"/></g>
-                  <text x="48" y="25">Old enquiries</text><text class="map__sub" x="48" y="43">the ones that went quiet</text>
-                </g>
-                <g class="map__node" data-on="0.16" transform="translate(10 352)">
-                  <rect width="184" height="56" rx="14"/>
-                  <rect class="map__badge" x="9" y="13" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 18)"><path d="M4 8.5a6 6 0 0 1 10.4-3.6L16 6.5"/><path d="M16 2.6v3.9h-3.9"/><path d="M16 11.5a6 6 0 0 1-10.4 3.6L4 13.5"/><path d="M4 17.4v-3.9h3.9"/></g>
-                  <text x="48" y="25">The job you repeat</text><text class="map__sub" x="48" y="43">and would rather not</text>
-                </g>
-
-                <g class="map__core" data-on="0.33">
-                  <circle class="map__orbit" cx="340" cy="240" r="88"/>
-                  <rect class="map__ring" x="280" y="180" width="120" height="120" rx="32"/>
-                  <rect class="map__coreBox" x="280" y="180" width="120" height="120" rx="32"/>
-                  <rect class="map__coreFill" x="280" y="180" width="120" height="120" rx="32" fill="url(#coreW)"/>
-                  <g class="map__glyph"><circle cx="340" cy="226" r="15"/><circle cx="340" cy="226" r="6"/></g>
-                  <text class="map__coreText" x="340" y="270" text-anchor="middle">Built by Jack</text>
-                </g>
-
-                <g class="map__node map__node--out" data-on="0.57" transform="translate(444 52)">
-                  <rect width="186" height="52" rx="14"/>
-                  <rect class="map__badge" x="9" y="11" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 16)"><path d="M11 1.5 4 11h5l-1 7.5L15 9h-5z"/></g>
-                  <text x="48" y="31">Answered in seconds</text>
-                </g>
-                <g class="map__node map__node--out" data-on="0.63" transform="translate(444 160)">
-                  <rect width="186" height="52" rx="14"/>
-                  <rect class="map__badge" x="9" y="11" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 16)"><path d="M2 11.5 4.5 4h11l2.5 7.5v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><path d="M2 11.5h4.5l1.5 2.5h4l1.5-2.5H18"/></g>
-                  <text x="48" y="31">Details in your inbox</text>
-                </g>
-                <g class="map__node map__node--out" data-on="0.69" transform="translate(444 268)">
-                  <rect width="186" height="52" rx="14"/>
-                  <rect class="map__badge" x="9" y="11" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 16)"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="4.5" rx="1.5"/><rect x="11" y="8.5" width="7" height="9.5" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/></g>
-                  <text x="48" y="31">On your dashboard</text>
-                </g>
-                <g class="map__node map__node--out" data-on="0.75" transform="translate(444 376)">
-                  <rect width="186" height="52" rx="14"/>
-                  <rect class="map__badge" x="9" y="11" width="30" height="30" rx="9"/><g class="map__icon" transform="translate(14 16)"><rect x="2" y="3.5" width="16" height="14.5" rx="2.5"/><path d="M2 8h16M6 1.8v3.4M14 1.8v3.4"/><path d="M7.5 13l2 2 3.5-4"/></g>
-                  <text x="48" y="31">Followed up in 48h</text>
-                </g>
-              </svg>
-
-              <!-- compact: top to bottom, for phones -->
-              <svg class="map__svg map__svg--tall" viewBox="0 0 360 408" role="img" aria-labelledby="map-t2 map-d">
-                <title id="map-t2">How it works</title>
-                <defs>
-                  <pattern id="dotsT" width="14" height="14" patternUnits="userSpaceOnUse"><circle cx="1.5" cy="1.5" r="1" fill="#0E7C86" fill-opacity="0.13"/></pattern>
-                  <radialGradient id="fadeT" cx="0.5" cy="0.5" r="0.62"><stop offset="0.25" stop-color="#fff"/><stop offset="1" stop-color="#000"/></radialGradient>
-                  <mask id="gridT"><rect width="360" height="408" fill="url(#fadeT)"/></mask>
-                  <filter id="haloT" filterUnits="userSpaceOnUse" x="0" y="0" width="360" height="408"><feGaussianBlur stdDeviation="2.2" result="b"/><feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge></filter>
-                  <filter id="liftT" x="-20%" y="-45%" width="140%" height="210%"><feDropShadow dx="0" dy="5" stdDeviation="6" flood-color="#0C3C42" flood-opacity="0.13"/></filter>
-                  <filter id="liftOnT" x="-25%" y="-55%" width="150%" height="230%"><feDropShadow dx="0" dy="5" stdDeviation="8" flood-color="#0E7C86" flood-opacity="0.24"/></filter>
-                  <filter id="coreGlowT" x="-70%" y="-70%" width="240%" height="240%"><feDropShadow dx="0" dy="10" stdDeviation="14" flood-color="#0E7C86" flood-opacity="0.45"/></filter>
-                  <radialGradient id="glowT"><stop offset="0" stop-color="#2FB3BE" stop-opacity="0.22"/><stop offset="1" stop-color="#4FB3BC" stop-opacity="0"/></radialGradient>
-                  <linearGradient id="flowT" gradientUnits="userSpaceOnUse" x1="0" y1="64" x2="0" y2="382"><stop offset="0" stop-color="#0B6A73"/><stop offset="1" stop-color="#18A7B2"/></linearGradient>
-                  <linearGradient id="coreT" x1="0" y1="0" x2="1" y2="1"><stop offset="0" stop-color="#17AAB5"/><stop offset="1" stop-color="#0A5C64"/></linearGradient>
-                </defs>
-                <rect class="map__grid" width="360" height="408" fill="url(#dotsT)" mask="url(#gridT)"/>
-                <circle class="map__glow" cx="180" cy="198" r="150" fill="url(#glowT)"/>
-                <g class="map__ghosts" aria-hidden="true">
-                  <path d="M56 64 C 56 112 160 108 160 150"/>
-                  <path d="M180 64 L 180 150"/>
-                  <path d="M304 64 C 304 112 200 108 200 150"/>
-                  <path d="M160 246 C 160 280 86 272 86 304"/>
-                  <path d="M200 246 C 200 280 274 272 274 304"/>
-                  <path d="M180 246 L 180 382 L 172 382"/>
-                  <path d="M180 246 L 180 382 L 188 382"/>
-                </g>
-                <g class="map__paths" aria-hidden="true" stroke="url(#flowT)">
-                  <path class="map__path" data-draw="0.04 0.22" d="M56 64 C 56 112 160 108 160 150"/>
-                  <path class="map__path" data-draw="0.10 0.26" d="M180 64 L 180 150"/>
-                  <path class="map__path" data-draw="0.16 0.30" d="M304 64 C 304 112 200 108 200 150"/>
-                  <path class="map__path" data-draw="0.42 0.57" d="M160 246 C 160 280 86 272 86 304"/>
-                  <path class="map__path" data-draw="0.48 0.63" d="M200 246 C 200 280 274 272 274 304"/>
-                  <path class="map__path" data-draw="0.54 0.69" d="M180 246 L 180 382 L 172 382"/>
-                  <path class="map__path" data-draw="0.60 0.75" d="M180 246 L 180 382 L 188 382"/>
-                </g>
-                <g class="map__trails" aria-hidden="true" filter="url(#haloT)">
-                  <path class="map__trail" d="M56 64 C 56 112 160 108 160 150"/>
-                  <path class="map__trail" d="M180 64 L 180 150"/>
-                  <path class="map__trail" d="M304 64 C 304 112 200 108 200 150"/>
-                  <path class="map__trail" d="M160 246 C 160 280 86 272 86 304"/>
-                  <path class="map__trail" d="M200 246 C 200 280 274 272 274 304"/>
-                  <path class="map__trail" d="M180 246 L 180 382 L 172 382"/>
-                  <path class="map__trail" d="M180 246 L 180 382 L 188 382"/>
-                </g>
-                <g class="map__pulses" aria-hidden="true" filter="url(#haloT)">
-                  <circle class="map__pulse" r="3.6"/><circle class="map__pulse" r="3.6"/><circle class="map__pulse" r="3.6"/>
-                  <circle class="map__pulse" r="3.6"/><circle class="map__pulse" r="3.6"/><circle class="map__pulse" r="3.6"/><circle class="map__pulse" r="3.6"/>
-                </g>
-                <g class="map__node" data-on="0.04" transform="translate(0 20)"><rect width="112" height="44" rx="13"/><text x="56" y="27" text-anchor="middle">Enquiries</text></g>
-                <g class="map__node" data-on="0.10" transform="translate(124 20)"><rect width="112" height="44" rx="13"/><text x="56" y="27" text-anchor="middle">Old enquiries</text></g>
-                <g class="map__node" data-on="0.16" transform="translate(248 20)"><rect width="112" height="44" rx="13"/><text x="56" y="27" text-anchor="middle">Repeat jobs</text></g>
-                <g class="map__core" data-on="0.33">
-                  <circle class="map__orbit" cx="180" cy="198" r="68"/>
-                  <rect class="map__ring" x="132" y="150" width="96" height="96" rx="26"/>
-                  <rect class="map__coreBox" x="132" y="150" width="96" height="96" rx="26"/>
-                  <rect class="map__coreFill" x="132" y="150" width="96" height="96" rx="26" fill="url(#coreT)"/>
-                  <g class="map__glyph"><circle cx="180" cy="188" r="12"/><circle cx="180" cy="188" r="5"/></g>
-                  <text class="map__coreText" x="180" y="226" text-anchor="middle">Built by Jack</text>
-                </g>
-                <g class="map__node map__node--out" data-on="0.57" transform="translate(0 304)"><rect width="172" height="44" rx="13"/><rect class="map__badge" x="7" y="9" width="26" height="26" rx="8"/><g class="map__icon" transform="translate(11 13) scale(0.9)"><path d="M11 1.5 4 11h5l-1 7.5L15 9h-5z"/></g><text x="39" y="27">Answered in seconds</text></g>
-                <g class="map__node map__node--out" data-on="0.63" transform="translate(188 304)"><rect width="172" height="44" rx="13"/><rect class="map__badge" x="7" y="9" width="26" height="26" rx="8"/><g class="map__icon" transform="translate(11 13) scale(0.9)"><path d="M2 11.5 4.5 4h11l2.5 7.5v4a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2z"/><path d="M2 11.5h4.5l1.5 2.5h4l1.5-2.5H18"/></g><text x="39" y="27">Details in your inbox</text></g>
-                <g class="map__node map__node--out" data-on="0.69" transform="translate(0 360)"><rect width="172" height="44" rx="13"/><rect class="map__badge" x="7" y="9" width="26" height="26" rx="8"/><g class="map__icon" transform="translate(11 13) scale(0.9)"><rect x="2" y="2" width="7" height="7" rx="1.5"/><rect x="11" y="2" width="7" height="4.5" rx="1.5"/><rect x="11" y="8.5" width="7" height="9.5" rx="1.5"/><rect x="2" y="11" width="7" height="7" rx="1.5"/></g><text x="39" y="27">On your dashboard</text></g>
-                <g class="map__node map__node--out" data-on="0.75" transform="translate(188 360)"><rect width="172" height="44" rx="13"/><rect class="map__badge" x="7" y="9" width="26" height="26" rx="8"/><g class="map__icon" transform="translate(11 13) scale(0.9)"><rect x="2" y="3.5" width="16" height="14.5" rx="2.5"/><path d="M2 8h16M6 1.8v3.4M14 1.8v3.4"/><path d="M7.5 13l2 2 3.5-4"/></g><text x="39" y="27">Followed up in 48h</text></g>
-              </svg>
-            </div>
-
-            <figcaption class="map__cap" data-sc-cue="0.78 1 0.2 0">All of it running while you're busy, and you only deal with me.</figcaption>
-          </figure>
-        </div>
-      </div>
-
-    </div>
   </section>
 
-  <!-- 2 · SUBSTANCE: a real client's words beside the thing itself. No figures:
-       to an outsider they need context the page can't give (Jack, 11 Sep).
-       Not an act: it reads as one screen while the examples rotate. -->
+  <!-- 2 · SUBSTANCE: a real client's words beside the thing itself, its
+       examples landing in turn. No figures: to an outsider they need context
+       the page can't give (Jack, 11 Sep). -->
 
-  <section class="sc-section proof">
+  <section class="sc-section proof" id="proof">
     <div class="sc-wrap"><div class="proof__grid">
       <div class="proof__head" data-sc-in data-sc-stagger="70">
         <p class="eyebrow">A live example</p>
-        <h2 class="h2">Already answering for a real club.</h2>
+        <h2 class="h2">Already answering enquiries for a Guildford club.</h2>
       </div>
 
       <div class="proof__left" data-sc-in>
@@ -325,7 +144,7 @@
                     <div><dt>Ref</dt><dd>ACC-20260906-418265</dd></div>
                   </dl>
                 </div>
-                <div class="enq__row"><span class="pill">New</span><span>Confirmation emailed to Sarah</span><span class="enq__muted">Follow-up set for 48h if she goes quiet</span></div>
+                <div class="enq__row"><span class="pill">New</span><span>Confirmation emailed to Sarah</span><span class="enq__muted">Followed up if she goes quiet after your call</span></div>
               </div>
             </div>
 
@@ -365,7 +184,7 @@
 
           </div>
         </div>
-        <div class="enq__tabs" aria-label="Choose an example">
+        <div class="enq__tabs" role="group" aria-label="Choose an example">
           <button type="button" aria-pressed="true">Club</button>
           <button type="button" aria-pressed="false">Accountant</button>
           <button type="button" aria-pressed="false">Estate agent</button>
@@ -376,61 +195,61 @@
     </div></div>
   </section>
 
-  <!-- 3 · RANGE: what else he builds -->
-  <section class="range" data-sc-act="pan" data-sc-span="3.4">
+  <!-- 3 · RANGE: what else he builds, panning sideways as the page scrolls
+       (Jack, 22 Sep: keep the sideways scrolling). -->
+  <section class="range" id="build" data-sc-act="pan" data-sc-span="3.4">
     <div data-sc-stage class="range__stage">
       <div class="rail" data-sc-pan="0.04">
         <div class="rail__lead">
-          <h2 class="h2">What I build</h2>
-          <p class="body">Three ways in. Most clients start with one and add the rest when it's earning.</p>
+        <h2 class="h2">What I build</h2>
+        <p class="body">Three ways in. Start with one, and only add another once the first has earned its place.</p>
         </div>
-        <article class="card" data-sc-tilt="5">
+        <article class="card">
           <span class="card__glyph" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M5 9.5a4 4 0 0 1 4-4h13a4 4 0 0 1 4 4v6a4 4 0 0 1-4 4h-7l-5 4v-4H9a4 4 0 0 1-4-4z"/><path d="M29 14.5h1a3 3 0 0 1 3 3v5a3 3 0 0 1-3 3h-1v3.5l-4.2-3.5H19a3 3 0 0 1-3-3v-.5"/><circle cx="11.5" cy="12.5" r=".6"/><circle cx="15.5" cy="12.5" r=".6"/><circle cx="19.5" cy="12.5" r=".6"/></svg></span>
           <h3>Lead Assistant</h3>
           <p>Answers every enquiry on your website in seconds, day or night. Takes the details, confirms a callback, and tells you.</p>
-          <p class="card__foot"><a class="textlink" href="https://jackburdett7-dev--lead-assistant-fastapi-app.modal.run/accountants" target="_blank" rel="noopener">Try the live demo</a> · a demo accountancy firm</p>
+          <p class="card__foot">Comes with your own lead dashboard</p>
         </article>
-        <article class="card" data-sc-tilt="5">
+        <article class="card">
           <span class="card__glyph" aria-hidden="true"><svg viewBox="0 0 36 36"><path d="M29.5 18a11.5 11.5 0 1 1-3.4-8.1"/><path d="M26.6 4.8v5.4h-5.4"/><circle cx="18" cy="18" r="3"/></svg></span>
           <h3>Reactivation</h3>
           <p>Most businesses have a pile of old enquiries that never went anywhere. I go back through them and restart the conversations.</p>
-          <p class="card__foot">Run from your own inbox, under your name</p>
+          <p class="card__foot">Sent from your own domain, under your name</p>
         </article>
-        <article class="card" data-sc-tilt="5">
+        <article class="card">
           <span class="card__glyph" aria-hidden="true"><svg viewBox="0 0 36 36"><rect x="4" y="5" width="10" height="8" rx="2.5"/><rect x="22" y="14" width="10" height="8" rx="2.5"/><rect x="4" y="23" width="10" height="8" rx="2.5"/><path d="M14 9h3a3 3 0 0 1 3 3v2m-6 13h3a3 3 0 0 0 3-3v-2m0-6h2"/></svg></span>
           <h3>Bespoke</h3>
           <p>Tell me the job you'd happily never do again. If it repeats, it can usually be automated, built around how you already work.</p>
           <p class="card__foot">Scoped on the first call</p>
         </article>
         <div class="rail__note">
-          <p>Not sure which? That's exactly what the first call is for.</p>
+          <p>Not sure which fits? We can work it out on the first call.</p>
         </div>
       </div>
     </div>
   </section>
 
   <!-- 4 · WARMTH: who he is -->
-  <section class="sc-section about" data-sc-act="flow">
+  <section class="sc-section about">
     <div class="sc-wrap"><div class="about__grid">
-      <div class="about__photo" data-sc-parallax="0.6">
+      <div class="about__photo">
         <img src="assets/jack.jpg" width="400" height="400" alt="Jack Burdett">
       </div>
       <div class="sc-stack" data-sc-in data-sc-stagger="70">
         <h2 class="h2">Hi, I'm Jack.</h2>
-        <p class="body body--ink">I'm based in Surrey and I build every system myself. No agency, no outsourced team. What I do is find where a small business quietly loses time and money, then fix the process behind it.</p>
+        <p class="body body--ink">I'm based in Surrey and I build every system myself. I look for the places a small business loses time or work, often enquiries nobody got round to answering, and fix the process behind them.</p>
         <p class="body">You'll deal with me directly, start to finish. I only take a handful of clients at a time so the work stays hands-on, and if it isn't making you money, I don't want to be running it.</p>
-        <p class="aside">Worried it's one more thing to manage? It isn't. I set it up, I run it, and you just get the enquiries.</p>
+        <p class="aside">You're probably thinking this is one more system to look after. In practice I set it up and run it, and you just get the enquiries.</p>
       </div>
     </div></div>
   </section>
 
   <!-- 5 · COMMITMENT -->
-  <section id="book" data-sc-act="pin" data-sc-span="1.3">
-    <div data-sc-stage class="close">
+  <section id="book" class="sc-section close">
       <div class="close__grid">
-        <div class="close__copy" data-sc-cue="0 1 0 0">
-          <h2 class="close__title">Your turn.</h2>
-          <p class="lede">No pitch deck and no sales team. Fifteen minutes with me, and an honest answer about where your enquiries go.</p>
+        <div class="close__copy">
+          <h2 class="close__title">Fifteen minutes with me.</h2>
+          <p class="lede">A short video call, just you and me. I'll ask how enquiries reach you now, and you'll get an honest answer on whether I can help.</p>
         </div>
         <div class="la la--jack" role="group" aria-label="A message from Jack">
           <div class="la__head">
@@ -439,29 +258,29 @@
             <span class="la__tag la__tag--quiet">Replies himself</span>
           </div>
           <ol class="chat chat--static">
-            <li class="msg msg--us">Hi, I'm Jack. It sounds like you're wondering whether something like this would actually work for your business.</li>
+            <li class="msg msg--us">You don't need anything worked out before we talk. If it won't work for your business, I'll tell you.</li>
             <li class="msg msg--us">Would it be a bad idea to spend 15 minutes finding out?</li>
           </ol>
           <div class="close__actions">
-            <a class="btn btn--lg" href="https://cal.com/jackburdett/introcall" target="_blank" rel="noopener" data-sc-magnet="0.22">Book a call</a>
+            <a class="btn btn--lg" href="https://cal.com/jackburdett/introcall" target="_blank" rel="noopener">Book a call</a>
             <p class="close__alt">or email <a href="mailto:jack@jmburdett.com">jack@jmburdett.com</a></p>
           </div>
         </div>
       </div>
-      <footer class="foot">
-        <span class="brand brand--foot">JMBURDETT<span class="brand__sys">Systems</span></span>
-        <span>Jack Burdett, sole trader, Surrey</span>
-        <a href="/privacy.html">Privacy</a>
-        <span>© 2026</span>
-      </footer>
-    </div>
   </section>
 
 </main>
 
+<footer class="foot">
+  <span class="brand brand--foot">JMBURDETT<span class="brand__sys">Systems</span></span>
+  <span>Jack Burdett, sole trader, Surrey</span>
+  <a href="/privacy.html">Privacy</a>
+  <a href="/terms.html">Terms</a>
+  <span>© 2026</span>
+</footer>
+
 <script src="scrollcraft.js"></script>
 <script>ScrollCraft.mount(document.body);</script>
-<script src="lenis.min.js"></script>
 <script src="site.js"></script>
 </body>
 </html>
