@@ -158,6 +158,26 @@
     } else { enq.classList.add('is-live'); }
   }
 
+  /* ------------------------------------------------- 4. how it works        
+     Each mock-up plays once, when a third of it is on screen, then stays as
+     it finished. The timing is all CSS (--d on each piece); this only says
+     when to start. Reduced motion shows them finished (site.css).           */
+  var plays = d.querySelectorAll('[data-play]');
+  if (plays.length) {
+    if (REDUCE || !('IntersectionObserver' in window)) {
+      Array.prototype.forEach.call(plays, function (el) { el.classList.add('is-played'); });
+    } else {
+      var playIO = new IntersectionObserver(function (entries) {
+        entries.forEach(function (e) {
+          if (!e.isIntersecting) return;
+          e.target.classList.add('is-played');
+          playIO.unobserve(e.target);
+        });
+      }, { threshold: 0.35 });
+      Array.prototype.forEach.call(plays, function (el) { playIO.observe(el); });
+    }
+  }
+
   // Fonts change every measured box (the rail's width among them); let the
   // engine measure again once they land.
   function relayout() { dispatchEvent(new Event('resize')); }

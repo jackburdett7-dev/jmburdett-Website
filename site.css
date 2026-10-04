@@ -349,6 +349,121 @@ body { position: relative; }
 .enq:focus-within .enq__tabs button::after { animation-play-state: paused; }
 @keyframes tabfill { to { transform: scaleX(1); } }
 
+/* ================================================================== HOW ==
+   Added 4 Oct. Three steps, copy beside a mock-up. Each mock-up plays
+   once when it comes into view (site.js adds .is-played) and then stays
+   put: nothing follows scroll position or the pointer. Every moving piece
+   carries its own delay in --d.                                           */
+.how { padding-block: calc(var(--sc-section) * 0.5) 0; overflow-x: clip; }
+.how .sc-wrap { max-width: calc(72rem + 2 * var(--sc-gutter)); }
+.how__head { max-width: 40rem; padding-bottom: clamp(1rem, 3vw, 2.5rem); }
+/* Each step is its own tall band: two equal columns, generous air above and
+   below, the mock-up kept small in the middle of its half. Every other band
+   is tinted, edge to edge.                                                 */
+.how__row {
+  position: relative; isolation: isolate;
+  display: grid; grid-template-columns: 1fr 1fr; align-items: center;
+  gap: clamp(2.5rem, 6vw, 6rem);
+  padding-block: clamp(4rem, 8.9vw, 8rem);
+}
+.how__row--flip::before {
+  content: ""; position: absolute; z-index: -1; top: 0; bottom: 0; left: 50%; width: 100vw; transform: translateX(-50%);
+  background: rgba(253, 253, 251, 0.7);
+  border-block: 1px solid var(--jb-line);
+}
+.how__row--flip .how__copy { order: 2; }
+.how__num {
+  display: block; margin-bottom: var(--sc-4);
+  font-family: var(--sc-font-display); font-weight: 600; font-size: 0.8rem; letter-spacing: 0.2em;
+  color: var(--jb-teal-text); font-variant-numeric: tabular-nums;
+}
+.how__copy h3 {
+  margin: 0 0 var(--sc-5);
+  font-family: var(--sc-font-display); font-weight: 600;
+  font-size: clamp(1.6rem, 1.3rem + 0.9vw, 2.1rem); line-height: 1.12; letter-spacing: -0.035em;
+  text-wrap: balance;
+}
+.how__copy p { margin: 0; max-width: 31rem; color: var(--sc-ink-soft); font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem); line-height: 1.6; text-wrap: pretty; }
+.ticks { margin: var(--sc-6) 0 0; padding: 0; list-style: none; display: grid; gap: 14px; max-width: 31rem; font-size: 1.02rem; line-height: 1.45; }
+.ticks li { position: relative; padding-left: 36px; }
+.ticks li::before {
+  content: ""; position: absolute; left: 0; top: 0.05em; width: 24px; height: 24px; border-radius: 50%;
+  background:
+    url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='none' stroke='%230B626B' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath d='M7.5 12.5l3 3 6-6.5'/%3E%3C/svg%3E") center / 24px no-repeat,
+    color-mix(in oklab, var(--sc-accent) 12%, var(--sc-surface));
+}
+
+.demo { width: 100%; max-width: 28rem; justify-self: center; }
+.demo .la__meta { padding-bottom: 12px; }
+.chat--demo { padding-bottom: 12px; }
+.msg--them { align-self: flex-start; background: #fff; border: 1px solid var(--jb-line); border-bottom-left-radius: 5px; box-shadow: var(--sc-e1); }
+.demo__ref {
+  align-self: flex-start; display: inline-flex; align-items: center; gap: 8px;
+  margin: 0 16px 16px; padding: 7px 14px; border-radius: var(--sc-r-pill);
+  background: color-mix(in oklab, var(--sc-accent) 10%, var(--sc-surface));
+  color: var(--jb-teal-text); font-weight: 500; font-size: 0.84rem; font-variant-numeric: tabular-nums;
+}
+.pill--quiet { background: color-mix(in oklab, var(--sc-ink) 8%, var(--sc-surface)); color: var(--sc-ink-soft); }
+
+/* step 2: a line runs down from the enquiry to the two places it lands */
+.feed { position: relative; display: flex; flex-direction: column; gap: 16px; padding: 6px 16px 18px 40px; }
+.feed__line { position: absolute; left: 21px; top: 16px; bottom: 30px; width: 2px; border-radius: 2px; background: color-mix(in oklab, var(--sc-accent) 45%, transparent); transform-origin: top center; }
+.feed__item { position: relative; }
+.feed__dot { position: absolute; left: -24px; top: 4px; width: 12px; height: 12px; border-radius: 50%; background: var(--sc-accent); box-shadow: 0 0 0 4px var(--sc-surface); }
+.feed__label { margin: 0 0 8px; font-family: var(--sc-font-display); font-weight: 600; font-size: 0.72rem; letter-spacing: 0.16em; text-transform: uppercase; color: var(--jb-teal-text); }
+.dash { border-radius: var(--jb-r-sm); background: #fff; border: 1px solid var(--jb-line); box-shadow: var(--sc-e1); overflow: hidden; }
+.dash__row {
+  display: grid; grid-template-columns: 6.6rem 1fr auto; align-items: center; gap: 10px;
+  padding: 10px 12px; font-size: 0.84rem;
+}
+.dash__row + .dash__row { border-top: 1px solid var(--jb-line); }
+.dash__row .pill { justify-self: start; }
+.dash__row--new { background: color-mix(in oklab, var(--sc-accent) 7%, var(--sc-surface)); }
+.dash__who { font-weight: 500; }
+.dash__when { color: var(--sc-ink-soft); font-variant-numeric: tabular-nums; white-space: nowrap; }
+
+/* step 3: three days on a rail, then the follow-up itself */
+.track { position: relative; padding: 8px 18px 16px; }
+.track__rail { position: absolute; left: 24px; right: 24px; top: 14px; height: 2px; border-radius: 2px; background: var(--jb-line); overflow: hidden; }
+.track__fill { display: block; height: 100%; background: var(--sc-accent); transform-origin: left center; }
+.track__stops { position: relative; margin: 0; padding: 0; list-style: none; display: grid; grid-template-columns: repeat(3, 1fr); }
+.track__stops li { display: flex; flex-direction: column; gap: 2px; padding-top: 22px; position: relative; font-size: 0.82rem; color: var(--sc-ink-soft); }
+.track__stops li::before {
+  content: ""; position: absolute; top: 0; left: 0; width: 14px; height: 14px; border-radius: 50%;
+  background: var(--sc-accent); box-shadow: 0 0 0 4px var(--sc-surface);
+}
+.track__stops li:nth-child(2) { align-items: center; text-align: center; }
+.track__stops li:nth-child(2)::before { left: calc(50% - 7px); }
+.track__stops li:nth-child(3) { align-items: flex-end; text-align: right; }
+.track__stops li:nth-child(3)::before { left: auto; right: 0; }
+.track__stops strong { font-family: var(--sc-font-display); font-weight: 600; font-size: 0.95rem; letter-spacing: -0.01em; color: var(--sc-ink); }
+.demo__chase { margin: 0 14px 10px; }
+.demo__text { margin: 0; font-size: 0.9rem; line-height: 1.5; color: var(--sc-ink-soft); }
+.demo--chase .enq__row { margin: 0 14px 14px; }
+.swap { display: inline-grid; }
+.swap > * { grid-area: 1 / 1; justify-self: start; }
+.swap__a { visibility: hidden; }   /* without JS, and once played: the final state */
+
+/* the play. Hidden only when JS is there to bring it back. */
+.js [data-play] .pl { opacity: 0; transform: translateY(10px); }
+.js [data-play] .pl-line { transform: scaleY(0); }
+.js [data-play] .track__fill.pl-line { transform: scaleX(0); }
+.js [data-play] .pl-dot { transform: scale(0); }
+.js [data-play] .pl-stop { opacity: 0.35; }
+.js [data-play] .pl-stop::before { transform: scale(0.4); background: var(--sc-ink-soft); }
+.js [data-play] .swap__a { visibility: visible; }
+.js [data-play] .swap__b { opacity: 0; transform: scale(0.8); }
+
+.js [data-play].is-played .pl { opacity: 1; transform: none; transition: opacity 460ms var(--sc-ease-out) var(--d, 0ms), transform 460ms var(--sc-ease-out) var(--d, 0ms); }
+.js [data-play].is-played .pl-line { transform: none; transition: transform 1500ms cubic-bezier(0.4, 0, 0.2, 1) var(--d, 0ms); }
+.js [data-play].is-played .track__fill.pl-line { transition-duration: 1700ms; transition-timing-function: linear; }
+.js [data-play].is-played .pl-dot { transform: none; transition: transform 380ms var(--sc-ease-out) var(--d, 0ms); }
+.js [data-play].is-played .pl-stop { opacity: 1; transition: opacity 300ms var(--sc-ease-out) var(--d, 0ms); }
+.js [data-play].is-played .pl-stop::before { transform: none; background: var(--sc-accent); transition: transform 380ms var(--sc-ease-out) var(--d, 0ms), background-color 300ms var(--sc-ease-out) var(--d, 0ms); }
+.js [data-play].is-played .dash__row--new .pill { animation: pop 420ms var(--sc-ease-out) 2250ms both; }
+.js [data-play].is-played .swap__a { opacity: 0; transition: opacity 260ms var(--sc-ease-out) 3700ms; }
+.js [data-play].is-played .swap__b { opacity: 1; transform: none; transition: opacity 320ms var(--sc-ease-out) 3800ms, transform 320ms var(--sc-ease-out) 3800ms; }
+
 /* ================================================================ RANGE ==
    One pinned act: the rail of services pans sideways as the page scrolls
    (Jack, 22 Sep: keep it). The cards no longer tilt toward the pointer.  */
@@ -447,6 +562,11 @@ body { position: relative; }
   .enq__body { padding: 12px; }
   .enq__mail { padding: 12px 13px; }
   .enq__mail dl div { grid-template-columns: 4.6rem 1fr; }
+  .how__row { grid-template-columns: 1fr; gap: var(--sc-6); }
+  .how__row--flip .how__copy { order: 0; }
+  .demo { justify-self: start; }
+  .how__row { padding-block: var(--sc-7); }
+  .dash__row { grid-template-columns: auto 1fr auto; }
   .about__grid { grid-template-columns: 1fr; }
   /* one column stretches its items: keep the photo's ring hugging the photo */
   .about__photo { justify-self: start; }
@@ -468,4 +588,9 @@ body { position: relative; }
 @media (prefers-reduced-motion: reduce) {
   .js .enq__scene :is(.enq__toast, .enq__mail, .enq__mail dl > div, .enq__row) { transform: none !important; transition-duration: 200ms; transition-delay: 0s !important; }
   .js .enq.is-live .is-active .pill { animation: none; }
+  /* the how-it-works mock-ups are shown finished, nothing plays */
+  .js [data-play] :is(.pl, .pl-line, .pl-dot, .pl-stop, .swap__b),
+  .js [data-play] .pl-stop::before { opacity: 1 !important; transform: none !important; transition: none !important; animation: none !important; }
+  .js [data-play] .pl-stop::before { background: var(--sc-accent) !important; }
+  .js [data-play] .swap__a { visibility: hidden !important; }
 }

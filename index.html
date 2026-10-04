@@ -195,6 +195,114 @@
     </div></div>
   </section>
 
+  <!-- HOW IT WORKS (4 Oct): three steps, each beside a mock-up that
+       plays once when it comes into view. Not tied to scroll position. -->
+  <section class="sc-section how" id="how">
+    <div class="sc-wrap">
+      <div class="how__head" data-sc-in data-sc-stagger="70">
+        <p class="eyebrow">How it works</p>
+        <h2 class="h2">What happens when someone gets in touch.</h2>
+      </div>
+
+      <div class="how__row">
+        <div class="how__copy" data-sc-in>
+          <span class="how__num" aria-hidden="true">01</span>
+          <h3>They ask. It answers.</h3>
+          <p>Someone lands on your website on a Sunday evening with a question. The Lead Assistant replies in seconds, takes their details and tells them when to expect a call.</p>
+          <ul class="ticks"><li>Answers in seconds, day or night</li><li>Takes their name, what they need and a time to call</li><li>Sends them a confirmation with a reference</li></ul>
+        </div>
+        <div class="la demo" data-play role="group" aria-label="Example of the Lead Assistant answering an enquiry">
+          <div class="la__head">
+            <span class="la__dot" aria-hidden="true"></span>
+            <span class="la__name">Lead Assistant</span>
+            <span class="la__tag">Example</span>
+          </div>
+          <div class="la__meta"><span>On your website</span><span class="la__clock">Sun 20:03</span></div>
+          <ol class="chat chat--demo">
+            <li class="msg msg--them pl" style="--d:150ms">Hi, do you take on new clients? I need help with my first tax return.</li>
+            <li class="msg msg--us pl" style="--d:1000ms">We do. Can I take your name, and when is a good time to call you?</li>
+            <li class="msg msg--them pl" style="--d:1900ms">Sarah. Monday morning would be best.</li>
+            <li class="msg msg--us pl" style="--d:2800ms">Thanks, Sarah. You'll get a call on Monday morning, and I've emailed you a confirmation.</li>
+          </ol>
+          <p class="demo__ref pl" style="--d:3500ms"><span class="chip__dot" aria-hidden="true"></span>Reference ACC-20260906-418265</p>
+        </div>
+      </div>
+
+      <div class="how__row how__row--flip">
+        <div class="how__copy" data-sc-in>
+          <span class="how__num" aria-hidden="true">02</span>
+          <h3>You hear about it straight away.</h3>
+          <p>The details reach your inbox and sit in your own dashboard, ready for the call. Nothing waits in a contact form until someone remembers to check it.</p>
+          <ul class="ticks"><li>An email to you the moment it lands</li><li>Every enquiry listed in your own dashboard</li><li>New or Contacted, at a glance</li></ul>
+        </div>
+        <div class="la demo demo--feed" data-play role="group" aria-label="Example of an enquiry reaching the inbox and the dashboard">
+          <div class="la__head">
+            <span class="la__dot" aria-hidden="true"></span>
+            <span class="la__name">Where it goes</span>
+            <span class="la__tag">Example</span>
+          </div>
+          <div class="feed">
+            <span class="feed__line pl-line" style="--d:200ms" aria-hidden="true"></span>
+            <div class="feed__item">
+              <span class="feed__dot pl-dot" style="--d:350ms" aria-hidden="true"></span>
+              <p class="feed__label pl" style="--d:350ms">Your inbox</p>
+              <div class="enq__mail pl" style="--d:500ms">
+                <p class="enq__subj">New enquiry: tax return</p>
+                <dl>
+                  <div><dt>Name</dt><dd>Sarah C.</dd></div>
+                  <div><dt>Needs</dt><dd>Her first self-assessment</dd></div>
+                  <div><dt>Callback</dt><dd>Monday morning</dd></div>
+                </dl>
+              </div>
+            </div>
+            <div class="feed__item">
+              <span class="feed__dot pl-dot" style="--d:1350ms" aria-hidden="true"></span>
+              <p class="feed__label pl" style="--d:1350ms">Your dashboard</p>
+              <div class="dash pl" style="--d:1500ms">
+                <div class="dash__row dash__row--new pl" style="--d:1900ms"><span class="pill">New</span><span class="dash__who">Sarah C.</span><span class="dash__when">Sun 20:03</span></div>
+                <div class="dash__row"><span class="pill pill--quiet">Contacted</span><span class="dash__who">D. Patel</span><span class="dash__when">Fri 16:40</span></div>
+                <div class="dash__row"><span class="pill pill--quiet">Contacted</span><span class="dash__who">Hill &amp; Co</span><span class="dash__when">Thu 11:12</span></div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div class="how__row">
+        <div class="how__copy" data-sc-in>
+          <span class="how__num" aria-hidden="true">03</span>
+          <h3>The quiet ones get a nudge.</h3>
+          <p>You make the call. If they go quiet afterwards, a polite follow-up goes out 48 hours later, so a warm enquiry doesn't drift away while you're busy.</p>
+          <ul class="ticks"><li>You make the call, as you do now</li><li>A follow-up goes out 48 hours later if they go quiet</li><li>Switched off if you'd rather chase them yourself</li></ul>
+        </div>
+        <div class="la demo demo--chase" data-play role="group" aria-label="Example of a follow-up going out after 48 hours">
+          <div class="la__head">
+            <span class="la__dot" aria-hidden="true"></span>
+            <span class="la__name">Follow-up</span>
+            <span class="la__tag">Example</span>
+          </div>
+          <div class="track">
+            <span class="track__rail" aria-hidden="true"><span class="track__fill pl-line" style="--d:300ms"></span></span>
+            <ol class="track__stops">
+              <li class="pl-stop" style="--d:300ms"><strong>Sun</strong><span>Enquiry arrives</span></li>
+              <li class="pl-stop" style="--d:1100ms"><strong>Mon</strong><span>You call Sarah</span></li>
+              <li class="pl-stop" style="--d:1900ms"><strong>Wed</strong><span>No reply yet</span></li>
+            </ol>
+          </div>
+          <div class="enq__mail demo__chase pl" style="--d:2300ms">
+            <p class="enq__subj">Following up on your tax return</p>
+            <p class="demo__text">Hi Sarah, just checking you have everything you need after Monday's call. Reply here if you'd like to go ahead.</p>
+          </div>
+          <div class="enq__row pl" style="--d:2900ms">
+            <span class="swap"><span class="pill pill--quiet swap__a">Contacted</span><span class="pill swap__b">Followed up</span></span>
+            <span>Sent 48 hours after your call</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
   <!-- 3 · RANGE: what else he builds, panning sideways as the page scrolls
        (Jack, 22 Sep: keep the sideways scrolling). -->
   <section class="range" id="build" data-sc-act="pan" data-sc-span="3.4">
