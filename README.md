@@ -13,12 +13,16 @@ there, then copy the package below into this folder and push.
 **Since 22 Sep 2026 motion is deliberate and small.** Jack's standing rules: no over-the-top scroll
 animation, no cursor animation, no em dashes, no emoji icons, no fake reviews, metrics or
 counters, no vague hero text, no AI-sounding copy. So: no smooth-scroll, no pointer tilt, magnet
-or parallax, and the background light is painted once. **The hero is type only:** "AI automation,
-done for you." sized from the page width (9.6cqi, about 124px at 1440). The system map is gone, and
-Jack rejected the Lead Assistant panel in the hero too. **Two pieces of motion stay because Jack
-asked for them back:** the Lead Assistant panel beside Michael's quote (examples land in turn and
-rotate on the tab timer; a tab click stops it) and the "What I build" rail, which pans sideways
-as the page scrolls (the one pinned act, span 3.4).
+or parallax, and the background light is painted once.
+
+**15 Oct 2026: websites only.** The business is now website design, build and upkeep for small
+local organisations, with no AI services and no AI copy anywhere on the site. Don't add the Lead
+Assistant, chatbots, automation or "AI" back. **The hero is type only:** "Your website, done for
+you." sized from the page width (9.6cqi). Michael's quote and the Lead Assistant panel, demos and
+how-it-works section are gone (all about the chatbot). In their place, **Recent work**: GBSC,
+Littlefield and Alexander, each beside a screenshot of the live homepage (`assets/work-*.jpg`,
+1440x900, captured 15 Oct with the GBSC chat widget hidden). The "What I do" rail still pans
+sideways as the page scrolls (the one pinned act, span 3.4).
 Plus a short one-time fade as a section arrives (engine `data-sc-in`).
 
 ## Structure
@@ -26,11 +30,12 @@ Plus a short one-time fade as a section arrives (engine `data-sc-in`).
 jackburdett-site/
 ├── index.html           # the page
 ├── site.css             # page styles and tokens
-├── site.js              # the still light-field (WebGL, painted once), the rotating Lead Assistant
-│                        #   examples, header glass
+├── site.js              # the still light-field (WebGL, painted once), header glass (the old
+│                        #   example and demo code is inert: its elements are gone)
 ├── scrollcraft.css/js   # engine from the scroll-craft skill (never edit per project): tokens,
 │                        #   layout helpers, the services rail (pan act) and the section fade
 ├── assets/jack.jpg      # headshot
+├── assets/work-*.jpg    # live-site screenshots for Recent work
 ├── og.png               # link-preview image, rendered from the hero at 1200x630
 ├── favicon.svg/.ico, apple-touch-icon.png   # the "J" mark, drawn as a shape (no font needed)
 ├── privacy.html         # UK GDPR privacy notice (Article 14), linked from the cold email signature
@@ -42,14 +47,9 @@ jackburdett-site/
 ```
 
 ## Honesty rules the copy follows
-- The Lead Assistant **does not book calendar slots**: it answers, captures the details, confirms a
-  callback with a reference, emails the customer and the business, and puts the lead on the
-  dashboard. The four example scenes are labelled examples.
-- **Follow-ups carry no hour claim.** The customer chase is due 48h after the enquiry but only sends
-  once the firm has marked the lead "contacted", and the cron runs daily at 09:00 UTC (so 48 to
-  72h). Hence "Followed up if she goes quiet after your call".
-- Michael's quote is his approved wording, without the unverified "twice as many" line. "Over a
-  third at weekends" is true (9 of 25, live Supabase, Sept 2026).
-- No claims about what "most clients" do: there are two clients.
-- The demo link was removed on 22 Sep (the demo page itself uses emoji icons and em dashes).
-  Add it back only once the demo is cleaned up.
+- Only real, live sites in Recent work. Alexander's is a friend's site built unpaid: it says "a
+  friend's", never "client".
+- No claims about what "most clients" do beyond what is true (a club, a riding school, trades).
+- No figures, no turnaround promises, no prices on the page.
+- privacy.html and terms.html still describe the Lead Assistant and the AI providers on purpose:
+  the GBSC chatbot is still live and those pages must stay accurate. Update them when it comes off.

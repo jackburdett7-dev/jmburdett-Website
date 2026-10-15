@@ -542,6 +542,25 @@ body { position: relative; }
 .foot a { color: var(--sc-ink-soft); }
 .brand--foot { font-size: 0.9rem; margin-right: auto; }
 
+/* ================================================================= WORK ==
+   15 Oct: the how-it-works bands now carry real sites. Each screenshot sits
+   in the shared panel, its address in the head, and links to the live site. */
+.work { padding-bottom: calc(var(--sc-section) * 0.3); }
+.shot { width: 100%; max-width: 36rem; justify-self: center; color: inherit; text-decoration: none; }
+.shot .la__head { padding: 11px 16px; border-bottom: 1px solid var(--jb-line); }
+.shot__dots, .shot__dots::before, .shot__dots::after { width: 9px; height: 9px; border-radius: 50%; background: rgba(18, 24, 26, 0.14); }
+.shot__dots { position: relative; margin: 0 22px 0 2px; flex: none; }
+.shot__dots::before, .shot__dots::after { content: ""; position: absolute; top: 0; }
+.shot__dots::before { left: 13px; }
+.shot__dots::after { left: 26px; }
+.shot .la__name { font-family: var(--sc-font-body); font-weight: 400; font-size: 0.86rem; color: var(--sc-ink-soft); letter-spacing: 0; }
+.shot img { display: block; width: 100%; height: auto; aspect-ratio: 16 / 10; object-fit: cover; }
+@media (hover: hover) and (pointer: fine) {
+  .shot .la__name { transition: color 160ms ease-out; }
+  .shot:hover .la__name { color: var(--jb-teal-text); text-decoration: underline; text-underline-offset: 3px; }
+}
+.shot:focus-visible { outline: 2px solid var(--sc-accent); outline-offset: 4px; }
+
 /* ============================================================ PHONES == */
 @media (max-width: 860px) {
   .bar { padding-top: 10px; }
@@ -564,7 +583,7 @@ body { position: relative; }
   .enq__mail dl div { grid-template-columns: 4.6rem 1fr; }
   .how__row { grid-template-columns: 1fr; gap: var(--sc-6); }
   .how__row--flip .how__copy { order: 0; }
-  .demo { justify-self: start; }
+  .demo, .shot { justify-self: start; }
   .how__row { padding-block: var(--sc-7); }
   .dash__row { grid-template-columns: auto 1fr auto; }
   .about__grid { grid-template-columns: 1fr; }
