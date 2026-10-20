@@ -4,7 +4,8 @@
    Since 22 Sep (Jack): no smooth-scroll and nothing that follows the
    pointer. What still moves, because Jack likes it: the Lead Assistant
    panel beside Michael's quote (examples land and rotate) and the services
-   rail, which pans sideways as the page scrolls. The hero is type only.
+   rail, which pans sideways as the page scrolls. The hero pairs the promise
+   with three live sites (20 Oct).
    ========================================================================== */
 
 :root {
@@ -137,7 +138,8 @@ body { position: relative; }
    headline is sized from the page's width (cqi), so its longest line fills
    most of the row without ever running off it.                           */
 .hero {
-  display: flex; flex-direction: column; justify-content: center;
+  display: grid; grid-template-columns: minmax(0, 1.05fr) minmax(0, 1fr); align-items: center;
+  gap: clamp(2rem, 4vw, 5rem);
   min-height: 100vh; min-height: 100svh;
   padding: 96px var(--sc-gutter) clamp(2.5rem, 6vh, 4rem);
 }
@@ -150,8 +152,8 @@ body { position: relative; }
 .byline img { width: 40px; height: 40px; border-radius: 50%; object-fit: cover; box-shadow: 0 0 0 2px var(--sc-surface), var(--sc-e1); }
 .hero-title {
   font-family: var(--sc-font-display); font-weight: 600;
-  font-size: clamp(2.8rem, 8.6vw, 10.5rem);
-  font-size: clamp(2.8rem, 9.6cqi, 10.5rem);
+  font-size: clamp(2.8rem, 5.6vw, 7.2rem);
+  font-size: clamp(2.8rem, 15.5cqi, 7.2rem);
   line-height: 0.95; letter-spacing: -0.05em;
   margin: 0;
 }
@@ -162,6 +164,37 @@ body { position: relative; }
   color: var(--sc-ink-soft); text-wrap: pretty;
 }
 .hero-cta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--sc-5); margin: var(--sc-6) 0 0; }
+.hero-clients { margin: var(--sc-6) 0 0; max-width: 40ch; font-size: 0.92rem; line-height: 1.5; color: var(--sc-ink-soft); }
+.hero-clients a { color: var(--sc-ink); text-decoration: underline; text-decoration-color: rgba(18, 24, 26, 0.22); text-underline-offset: 3px; }
+@media (hover: hover) and (pointer: fine) { .hero-clients a:hover { color: var(--jb-teal-text); text-decoration-color: currentColor; } }
+
+/* the work beside the promise: three live sites, overlapped, front one largest */
+.hero-work { position: relative; z-index: 2; aspect-ratio: 1 / 0.92; width: 100%; max-width: 44rem; justify-self: end; }
+.hero-work .hw { position: absolute; max-width: none; justify-self: auto; }
+.hero-work .hw--front { left: 0; bottom: 12%; width: 82%; z-index: 3; box-shadow: var(--sc-edge), 0 40px 80px -30px rgba(10, 60, 66, 0.45); }
+.hero-work .hw--mid { right: 0; top: 4%; width: 64%; z-index: 2; }
+.hero-work .hw--back { right: 6%; bottom: 0; width: 46%; z-index: 1; }
+.hero-work :is(.hw--mid, .hw--back) { opacity: 0.96; }
+.hw .la__head { padding: 9px 14px; }
+.hw .la__name { font-size: 0.8rem; }
+.hw-quote {
+  position: absolute; left: 4%; bottom: -2%; z-index: 4; margin: 0;
+  max-width: 19rem; padding: 14px 18px;
+  background: var(--sc-surface, #fff); border: 1px solid var(--jb-line); border-radius: 16px;
+  box-shadow: var(--sc-edge), var(--sc-e3);
+}
+.hw-quote blockquote { margin: 0; }
+.hw-quote p { margin: 0; font-size: 0.95rem; line-height: 1.45; color: var(--sc-ink); text-wrap: pretty; }
+.hw-quote figcaption { margin-top: 6px; font-size: 0.78rem; color: var(--sc-ink-soft); }
+.hw-quote figcaption strong { color: var(--sc-ink); font-weight: 600; }
+
+/* plays in once on load, back to front, then never moves again */
+@keyframes hw-in { from { opacity: 0; transform: translateY(18px); } to { opacity: 1; transform: none; } }
+.js .hw, .js .hw-quote { animation: hw-in 700ms cubic-bezier(0.22, 1, 0.36, 1) both; }
+.js .hw--back { animation-delay: 150ms; }
+.js .hw--mid { animation-delay: 260ms; }
+.js .hw--front { animation-delay: 380ms; }
+.js .hw-quote { animation-delay: 620ms; }
 
 /* ------------------------------------------------- shared product panels */
 .la {
@@ -574,7 +607,12 @@ body { position: relative; }
   .bar__inner { height: 46px; padding-inline: 4px; }
 
   /* the headline fills the phone's width; the section after it follows on */
-  .hero { min-height: 0; padding-top: 112px; padding-bottom: var(--sc-7); }
+  .hero { display: flex; flex-direction: column; align-items: stretch; gap: var(--sc-7); min-height: 0; padding-top: 112px; padding-bottom: var(--sc-7); }
+  .hero-work { aspect-ratio: 1 / 0.8; max-width: 34rem; justify-self: auto; }
+  .hero-work .hw--front { width: 100%; top: 0; bottom: auto; }
+  .hero-work :is(.hw--mid, .hw--back) { display: none; }
+  .hw-quote { left: auto; right: 0; bottom: 0; max-width: 15rem; padding: 12px 14px; }
+  .hw-quote p { font-size: 0.88rem; }
   .byline { margin-bottom: var(--sc-5); font-size: 0.8rem; }
   .byline img { width: 32px; height: 32px; }
   .hero-title { font-size: clamp(2.4rem, 13.4vw, 4.4rem); font-size: clamp(2.4rem, 13.5cqi, 4.4rem); }
@@ -611,6 +649,7 @@ body { position: relative; }
    Fewer and gentler, not zero: the enquiry simply appears, nothing rotates
    (site.js), and the engine turns the rail into a swipeable row.          */
 @media (prefers-reduced-motion: reduce) {
+  .js .hw, .js .hw-quote { animation-duration: 1ms; animation-delay: 0s !important; }
   .js .enq__scene :is(.enq__toast, .enq__mail, .enq__mail dl > div, .enq__row) { transform: none !important; transition-duration: 200ms; transition-delay: 0s !important; }
   .js .enq.is-live .is-active .pill { animation: none; }
   /* the how-it-works mock-ups are shown finished, nothing plays */
