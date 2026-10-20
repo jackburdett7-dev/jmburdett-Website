@@ -386,6 +386,12 @@ body { position: relative; }
 .how__copy p { margin: 0; max-width: 31rem; color: var(--sc-ink-soft); font-size: clamp(1.05rem, 0.95rem + 0.4vw, 1.25rem); line-height: 1.6; text-wrap: pretty; }
 .ticks { margin: var(--sc-6) 0 0; padding: 0; list-style: none; display: grid; gap: 14px; max-width: 31rem; font-size: 1.02rem; line-height: 1.45; }
 .ticks li { position: relative; padding-left: 36px; }
+/* a client's own words under their project: quieter than the old teal card, so the screenshot stays the lead */
+.wq { margin: var(--sc-6) 0 0; padding-left: var(--sc-4); max-width: 31rem; border-left: 3px solid var(--jb-teal-text); }
+.wq blockquote { margin: 0; }
+.wq blockquote p { margin: 0; font-size: 1.02rem; line-height: 1.55; color: var(--sc-ink-soft); text-wrap: pretty; }
+.wq figcaption { margin-top: var(--sc-3); font-size: 0.86rem; color: var(--sc-ink-soft); }
+.wq figcaption strong { color: var(--sc-ink); font-weight: 600; }
 .ticks li::before {
   content: ""; position: absolute; left: 0; top: 0.05em; width: 24px; height: 24px; border-radius: 50%;
   background:
