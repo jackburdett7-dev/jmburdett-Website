@@ -47,7 +47,9 @@ jackburdett-site/
 ```
 
 ## Honesty rules the copy follows
-- Only real, live sites in Recent work. Alexander's is a friend's site built unpaid: it says "a
+- Only real, live sites in Recent work get the "Live" tag. Previews (M.V.M Barbers, 27 Oct) are
+  tagged "Preview" and say they aren't live yet.
+- Only real, live sites in Recent work otherwise. Alexander's is a friend's site built unpaid: it says "a
   friend's", never "client".
 - No claims about what "most clients" do beyond what is true (a club, a riding school, trades).
 - No figures, no turnaround promises, no prices on the page.
